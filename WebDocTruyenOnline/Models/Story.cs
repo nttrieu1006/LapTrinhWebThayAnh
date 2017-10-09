@@ -35,6 +35,7 @@
 
         public long? CategoryId { get; set; }
 
+        [Display(Name="Ảnh bìa")]
         [StringLength(250)]
         public string Image { get; set; }
 

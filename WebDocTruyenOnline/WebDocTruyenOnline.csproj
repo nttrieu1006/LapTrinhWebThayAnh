@@ -1344,6 +1344,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\images\featured1.jpg" />
     <Content Include="Images\images\news2.jpg" />
+    <Content Include="Images\images\StoryImages\untitled.png" />
     <Content Include="Images\_thumbs\Images\featured1.jpg" />
     <Content Include="Images\_thumbs\Images\news2.jpg" />
     <Content Include="Scripts\bootstrap.js" />

@@ -16,15 +16,26 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Admin/ChapStories
-        public ActionResult Index(string searchString)
+        public ActionResult Index(string searchString, long? id)
         {
            
             IQueryable<ChapStory> model = db.ChapStories;
-            if (!string.IsNullOrEmpty(searchString))
+            if(id == null)
             {
-                model = model.Where(x => x.Story.Name.Contains(searchString));
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    model = model.Where(x => x.Story.Name.Contains(searchString));
+                }
             }
-             model = model.Include(s => s.Story);
+            else
+            {
+                model = model.Where(x => x.StoryId == id);
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    model = model.Where(x => x.Story.Name.Contains(searchString) && x.StoryId == id);
+                }     
+            }
+            model = model.Include(s => s.Story);
             return View(model.OrderBy(x=>x.StoryId).ThenBy(x=>x.Chap).ToList());
         }
 

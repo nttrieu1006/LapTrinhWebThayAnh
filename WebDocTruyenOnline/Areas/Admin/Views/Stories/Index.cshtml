@@ -37,6 +37,9 @@
                         <thead>
                             <tr>
                                 <th>
+                                    @Html.DisplayNameFor(model => model.Image)
+                                </th>
+                                <th>
                                     @Html.DisplayNameFor(model => model.Name)
                                 </th>
                                 <th>
@@ -76,9 +79,12 @@
                             @foreach (var item in Model)
                             {
                                 <tr id="row_@item.Id">
-
+                                    
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Name)
+                                       <img src="@Html.DisplayFor(modelItem => item.Image)" width="35" />
+                                    </td>
+                                    <td>
+                                       <a href="/admin/chapstories/index?id=@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Author.Name)
