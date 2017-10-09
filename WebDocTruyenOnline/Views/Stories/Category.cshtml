@@ -1,0 +1,65 @@
+﻿@model PagedList.PagedList<WebDocTruyenOnline.Models.Story>
+@using PagedList.Mvc;
+
+    <div class="container" id="list-page">
+        <div class="row">
+            <div class="col-md-9 content">
+                <section class="section">
+                    <header class="section-header">
+                        <h2>@ViewBag.cate</h2>
+                    </header>
+                    <div class="section-content">
+
+                            @foreach (var item in Model)
+                            {
+                                <div class="comic-item clearfix">
+                                    <div class="col-sm-9 col-xs-12">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <a href="/truyen/@item.MetaTitle-@item.Id"><img class="image" src="@item.Image" alt="@item.Name"></a>
+                                            </div>
+                                            <div class="media-body">
+                                                <h3 class="name">
+                                                    <i class="glyphicon glyphicon-book"></i>
+                                                    <a href="/truyen/@item.MetaTitle-@item.Id" title="@item.Name">
+                                                        @item.Name
+                                                    </a>
+                                                    @if (item.Status == true)
+                                                    {
+                                                        <span class="label-title label-full"></span>
+                                                    }
+                                                    
+                                                    @if (item.TopHot.HasValue && item.TopHot > DateTime.Now)
+                                                    {
+                                                        <span class="label-title label-hot"></span>
+                                                    }         
+                                                </h3>
+
+                                                <span class="author">
+                                                    <i class="glyphicon glyphicon-pencil"></i>
+                                                    <span>@Html.DisplayFor(modelItem=>item.Author.Name)</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 hidden-xs">
+                                        <p class="chapter">
+                                            <a href="/doc-truyen/@item.MetaTitle-@item.Id ">@item.Name &#8211; Chương @item.ChapStories.LastOrDefault(x => x.StoryId == item.Id).Chap</a>
+                                    </p>
+
+                                </div>
+
+                            </div>
+                            }
+                    </div>
+                </section>
+
+                <div class="nav-pagination">
+                    <div class='wp-pagenavi'>
+                        @Html.PagedListPager(Model, pageIndex => Url.Action("Type", new { pageIndex }))
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>

@@ -1,0 +1,35 @@
+﻿@model List<WebDocTruyenOnline.Models.Story>
+
+<section class="section">
+    <header class="section-header">
+        <a class="link" href="http://demo6v2.wpair.net/truyen-da-hoan-thanh/" title="Truyện hot">
+            <h2>Truyện đã hoàn thành</h2><i class="glyphicon glyphicon-menu-right"></i>
+        </a>
+    </header>
+    <div class="section-content">
+        @foreach (var item in Model)
+        {
+            <div class="row">
+
+                <div class="col-xs-4 col-sm-3 col-md-2 full-comic text-center">
+                    <a href="/truyen/@item.MetaTitle-@item.Id" title="@item.MetaTitle">
+                        <img class="image" src="@item.Image" alt="@item.Name">
+                    </a>
+                    <h5 class="name"><a href="/truyen/@item.MetaTitle-@item.Id" title="@item.Name">@item.Name</a></h5>
+                    <span class="btn-xs btn btn-primary comic-chapter"><a href="/truyen/@item.MetaTitle-@item.Id">Chapter chữ</a></span>
+                    @if (item.Status == true)
+                    {
+                        <span class="label-title label-full"></span>
+                    }
+
+                    @if (item.TopHot.HasValue && item.TopHot > DateTime.Now)
+                {
+                        <span class="label-title label-hot"></span>
+                    }
+                </div>
+
+            </div>
+        }
+
+    </div>
+</section>

@@ -11,6 +11,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using WebDocTruyenOnline.Models;
+using System.Net.Mail;
+using System.Net;
 
 namespace WebDocTruyenOnline
 {
@@ -19,6 +21,27 @@ namespace WebDocTruyenOnline
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
+
+            var client = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                UseDefaultCredentials = false,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Credentials = new NetworkCredential("ntttrieu1006@gmail.com", "826087438"),
+                EnableSsl = true,
+            };
+
+            var from = new MailAddress("ntttrieu1006@gmail.com", "Admin web đọc truyện online");
+            var to = new MailAddress(message.Destination);
+
+            var mail = new MailMessage(from, to)
+            {
+                Subject = message.Subject,
+                Body = message.Body,
+                IsBodyHtml = true,
+            };
+            client.Send(mail);
             return Task.FromResult(0);
         }
     }
@@ -54,15 +77,15 @@ namespace WebDocTruyenOnline
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
+                RequireNonLetterOrDigit = false,
                 RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true,
+                RequireLowercase = false,
+                RequireUppercase = false,
             };
 
             // Configure user lockout defaults
             manager.UserLockoutEnabledByDefault = true;
-            manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(1);
             manager.MaxFailedAccessAttemptsBeforeLockout = 5;
 
             // Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user

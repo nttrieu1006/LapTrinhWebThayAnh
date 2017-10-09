@@ -1,0 +1,42 @@
+﻿@model IEnumerable<WebDocTruyenOnline.Models.ChapStory>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td class="name">
+            <h5>
+                <i class="glyphicon glyphicon-chevron-right"></i>
+                <a href="/truyen/@item.Story.MetaTitle-@item.Story.Id/">@Html.DisplayFor(modelItem => item.Story.Name)</a>
+                @if (item.Story.Status == true)
+                {
+                    <span class="label-title label-full"></span>
+                }
+
+                @if (item.Story.TopHot.HasValue && item.Story.TopHot > DateTime.Now)
+                {
+                    <span class="label-title label-hot"></span>
+                }
+            </h5>
+        </td>
+        <td class="category hidden-xs">
+            <a href="/the-loai/" title=""></a> , <a href="/the-loai/@Html.DisplayFor(modelItem => item.Story.MetaTitle)-@item.Story.StoryCategory.Id/" title="@Html.DisplayFor(modelItem => item.Story.StoryType.MetaTitle)">@Html.DisplayFor(modelItem => item.Story.StoryType.Name)</a>
+
+        </td>
+        <td class="chapter">
+            <a href="/doc-truyen/@item.Story.MetaTitle-@item.StoryId-@item.Chap/" title="@Html.DisplayFor(modelItem => item.Story.MetaTitle)">
+                 Chương @Html.DisplayFor(modelItem => item.Chap): @Html.DisplayFor(modelItem => item.ChapName)
+            </a>
+        </td>
+        <td class="release hidden-sm hidden-xs">
+            <time datetime="7 tháng trước">
+                @{ DateTime sEnd = item.CreateDate;
+                    (DateTime.Now).Subtract(sEnd);
+
+                    TimeSpan c = (DateTime.Now).Subtract(sEnd);
+                }
+                @c.Days ngày
+                        
+            </time>
+        </td>
+    </tr>
+                    }

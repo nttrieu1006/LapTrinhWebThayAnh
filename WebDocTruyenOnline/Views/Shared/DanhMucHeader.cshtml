@@ -1,0 +1,11 @@
+﻿@model List<WebDocTruyenOnline.Models.StoryCategory>
+
+<li id="menu-item-828" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-828">
+    <a href="#">Danh mục</a>
+    <ul class="sub-menu">
+        @foreach (var item in Model)
+        {
+            <li id="menu-item-252" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-252"><a href="/danh-muc/@item.MetaTitle-@item.Id">@item.Name</a></li>
+        }
+    </ul>
+</li>

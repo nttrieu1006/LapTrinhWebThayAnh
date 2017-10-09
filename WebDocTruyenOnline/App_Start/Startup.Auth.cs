@@ -54,9 +54,10 @@ namespace WebDocTruyenOnline
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "350592422031900",
+               appSecret: "ae980391aef52b17d12f45be45171f1f");
+
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{

@@ -1,0 +1,73 @@
+﻿@using WebDocTruyenOnline.Models;
+
+@model IEnumerable<ApplicationUser>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section header{
+    @ViewBag.Title
+    }
+
+
+<div class="row">
+
+    <div class="col-sm-12">
+
+        <hr />
+
+        <table class="table table-borderer">
+
+            <thead>
+
+                <tr>
+                    <th>Email</th>
+                    <th>Họ tên</th>
+
+                    <th>Địa chỉ</th>
+
+                    <th></th>
+
+                </tr>
+
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+
+                {
+                    <tr id="@item.Id">
+
+
+                        <td>@item.Email</td>
+                        <td>@item.FullName</td>
+
+                        <td>@item.Address</td>
+
+                        <td>
+
+                            @Html.ActionLink("Sửa thông tin", "Edit", new { Id = item.Id }, null) |
+
+                            @Html.ActionLink("Sửa quyền", "EditRole", new { Id = item.Id }, null) |
+
+                            @Ajax.ActionLink("Xóa", "Delete", new { @id = item.Id }, new AjaxOptions
+                       {
+                           Confirm = "Bạn có chắc chắn xóa",
+                           OnComplete = "$('#row_" + @item.Id + "').remove()",
+                           HttpMethod = "Delete"
+                       })
+
+                        </td>
+
+                    </tr>
+
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

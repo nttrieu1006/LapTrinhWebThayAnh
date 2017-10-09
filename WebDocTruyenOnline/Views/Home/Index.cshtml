@@ -1,31 +1,121 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var top = (List<WebDocTruyenOnline.Models.Story>)ViewBag.top;
+    var Types = (List<WebDocTruyenOnline.Models.StoryType>)ViewBag.Types;
+    var MoiCN = (List<WebDocTruyenOnline.Models.ChapStory>)ViewBag.MoiCN;
+    var Finish = (List<WebDocTruyenOnline.Models.Story>)ViewBag.Finish;
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+
+
+<div class="navbar-breadcrumb">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li class="active">Đọc truyện online, đọc truyện chữ, truyện full, truyện hay. Tổng hợp đầy đủ và cập nhật liên tục.</li>
+        </ul>
+    </div>
+</div>
+<div class="container">
+
+    <section class="section">
+        <header class="section-header">
+            <a class="link" href="http://demo6v2.wpair.net/truyen-hot/" title="Truyện hot">
+                <h2>Truyện hot</h2><i class="glyphicon glyphicon-fire"></i>
+            </a>
+            <select class="form-control select-hot-comic" id="Top">
+                <option value="">Tất cả</option>
+                @foreach (var item in Types)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+
+            </select>
+        </header>
+        <div class="section-content">
+            <div class="group-hot-comic clearfix" id="TopHot">
+                @{ Html.RenderAction("TopHot", "Stories");}
+            </div>
+        </div>
+    </section>
+    <div class="row">
+        <div class="col-md-9 content">
+            <section class="section">
+                <header class="section-header">
+                    <a class="link" href="/truyen-moi-cap-nhat/" title="Truyện mới cập nhật">
+                        <h2>Truyện mới cập nhật</h2><i class="glyphicon glyphicon-menu-right"></i>
+                    </a>
+
+                    <select class="form-control select-hot-comic" id="TruyenNew">
+                        <option value="">Tất cả</option>
+                        @foreach (var item in Types)
+                         {
+                            var url = "/truyen/" + item.MetaTitle + "-" + item.Id;
+                            <option value="@item.Id"><a href="@url">@item.Name</a></option>
+                        }
+                    </select>
+                </header>
+                <div class="section-content">
+                    <table class="table table-comic">
+                        <tbody class="group-new-comic" id="New">
+                            @{ Html.RenderAction("MoiCN", "ChapStories");}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+        <div class="hidden-xs hidden-sm col-md-3 sidebar">
+            @{ Html.RenderAction("StoryType", "StoryTypes");}
+        </div>
+    </div>
+
+    @{ Html.RenderAction("Finish", "Stories");}
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+@section scripts{
+
+    @*Lay du lieu cho TopHot*@
+    <script type="text/javascript">
+        $(function () {
+            function loadDataByAjax(theloai) {
+                $.ajax({
+                    type: 'get',
+                    data: { typeId: theloai},
+                    url: '@Url.Action("TopHot","Stories")',
+                    dataType: 'html',
+                    success: function (data) {
+                        $('#TopHot').html(data);
+                    }
+                });
+            }
+            loadDataByAjax(null);
+            $('#Top').click(function () {
+                var theloai = $(this).find(":selected").val();
+                loadDataByAjax(theloai);
+            });
+        });
+    </script>
+
+    @*Lay du lieu cho Moi Cap nhat*@
+<script type="text/javascript">
+        $(function () {
+            function loadDataByAjax(theloai) {
+                $.ajax({
+                    type: 'get',
+                    data: { typeId: theloai },
+                    url: '@Url.Action("MoiCN", "ChapStories")',
+                    dataType: 'html',
+                    success: function (data) {
+                        $('#New').html(data);
+                    }
+                });
+            }
+            loadDataByAjax(null);
+            $('#TruyenNew').click(function () {
+                var theloai = $(this).find(":selected").val();
+                loadDataByAjax(theloai);
+            });
+        });
+</script>
+}

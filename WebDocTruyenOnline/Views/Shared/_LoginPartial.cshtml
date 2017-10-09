@@ -1,22 +1,63 @@
 ﻿@using Microsoft.AspNet.Identity
-@if (Request.IsAuthenticated)
-{
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-    {
-    @Html.AntiForgeryToken()
+@using WebDocTruyenOnline.Common;
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-    </ul>
-    }
+@if (Request.IsAuthenticated)
+            {
+    <div class="pull-right" style="margin-top: 8px;">
+        <div class="user-menu">
+            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+            {
+                @Html.AntiForgeryToken()
+
+                var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
+
+                <ul class="nav navbar-nav navbar-right">
+                    @if (sess == null)
+                    {
+                        <li>
+                            @Html.ActionLink("Xin chào " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            @Html.ActionLink("Xin chào " + sess.FullName + " !", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                        </li>
+                    }   
+                    @*<li>
+                        @Html.ActionLink("Xin chào " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    </li>*@
+
+
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()">Đăng xuất</a></li>
+                </ul>
+            }
+        </div>
+    </div>
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
-}
+    <div class="pull-right" style="margin-top: 8px;">
+        <div class="user-menu">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#modal-login-register">Đăng nhập / Đăng ký</button>
+        </div>
+        <div id="modal-login-register" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                @{ Html.RenderAction("Dangki", "Home");}
+
+                            </div>
+                            <div class="col-sm-6">
+                                @{ Html.RenderAction("DangNhap", "Home");}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                                    }

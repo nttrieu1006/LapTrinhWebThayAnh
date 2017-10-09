@@ -5,7 +5,7 @@ namespace WebDocTruyenOnline.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
-        [Required]
+        [Required(ErrorMessage ="Email không được để trống")]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
@@ -41,62 +41,72 @@ namespace WebDocTruyenOnline.Models
 
     public class ForgotViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Email không được để trống")]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
 
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Chưa nhập Email.")]
+        [EmailAddress(ErrorMessage = "Email không hợp lệ. Xin kiểm tra lại.")]
         [Display(Name = "Email")]
-        [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Bạn chưa nhập mật khẩu.")]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Mật khẩu")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        public string FullName { get; set; }
+        
+        public string ConfirmPassword { get; set; }
+        [Display(Name = "Nhớ mật khẩu")]
         public bool RememberMe { get; set; }
     }
 
     public class RegisterViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage ="Chưa nhập Email.")]
+        [EmailAddress(ErrorMessage ="Email không hợp lệ. Xin kiểm tra lại.")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Required(ErrorMessage ="Bạn chưa nhập mật khẩu.")]
+        [StringLength(100, ErrorMessage = "Mật khẩu phải tối đa {0} ký tự và tối thiểu {2} ký tự.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Mật khẩu")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Xác thực mật khẩu")]
+        [Compare("Password", ErrorMessage = "Mật khẩu và xác thực không khớp.")]
         public string ConfirmPassword { get; set; }
+        [Display(Name ="Họ tên")]
+        [Required(ErrorMessage ="Họ tên không được để trống")]
+        public string FullName { get; set; }
+        [Display(Name ="Ảnh đại diện")]
+        public string Avatar { get; set; }
+        [Display(Name="Role")]
+        public string Name { get; set; }
     }
 
     public class ResetPasswordViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Chưa nhập Email.")]
+        [EmailAddress(ErrorMessage = "Email không hợp lệ. Xin kiểm tra lại.")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Required(ErrorMessage = "Bạn chưa nhập mật khẩu.")]
+        [StringLength(100, ErrorMessage = "Mật khẩu phải tối đa {0} ký tự và tối thiểu {2} ký tự.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Xác thực mật khẩu")]
+        [Compare("Password", ErrorMessage = "Mật khẩu và xác thực không khớp.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
@@ -104,8 +114,8 @@ namespace WebDocTruyenOnline.Models
 
     public class ForgotPasswordViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Chưa nhập Email.")]
+        [EmailAddress(ErrorMessage = "Email không hợp lệ. Xin kiểm tra lại.")]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }

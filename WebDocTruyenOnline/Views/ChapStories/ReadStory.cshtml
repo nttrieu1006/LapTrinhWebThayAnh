@@ -1,0 +1,231 @@
+﻿@model List<WebDocTruyenOnline.Models.ChapStory>
+
+@{
+    var chap = (WebDocTruyenOnline.Models.ChapStory)ViewBag.chap;
+    var chapNext = (long?)ViewBag.chapNext;
+    ViewBag.Title = chap.Story.Name + "Chương" + chap.Chap;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="navbar-breadcrumb">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="/"><i class="glyphicon glyphicon-home"></i> Trang chủ</a></li>
+            <li><a href="/truyen/@chap.Story.MetaTitle-@chap.Story.Id">@chap.Story.Name</a></li>
+            <li class="active">Chap @chap.Chap: @chap.ChapName</li>
+        </ul>
+    </div>
+</div>
+
+<div class="single-chapter container">
+    <button class="btn btn-success toggle-nav-open" type="button"></button>
+    <h2 class="comic-title text-center"><a href="/truyen/@chap.Story.MetaTitle-@chap.Story.Id">@chap.Story.Name</a></h2>
+    <h4 class="chapter-title text-center"><a title="http://demo6v2.wpair.net/linh-vu-thien-ha/chuong-1nhan-pham-co-van-de/" href="Chương 1:Nhân Phẩm Có Vấn Đề">Chương @chap.Chap:@chap.ChapName</a></h4>
+
+    <hr class="chapter-start">
+    <div class="chapter-nav">
+        @if (chap.Chap == 1)
+        {
+        }
+        else
+        {
+            int a = chap.Chap - 1;
+            <a href="/doc-truyen/@chap.Story.MetaTitle-@chap.StoryId-@a " class="btn btn-success btn-prev ">
+                <i class="fa fa-chevron-left "></i>
+                <span class="hidden-xs">Chương trước</span>
+            </a>
+        }
+        <div class="dropdown">
+            <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown">Chương @chap.Chap:@chap.ChapName			<span class="caret"></span></button>
+            <ul class="dropdown-menu hidden">
+                @{long i = 0; }
+                @foreach (var item in Model)
+                {
+                    i++;
+                    <li><a href="/doc-truyen/@item.Story.MetaTitle-@item.StoryId-@i">Chương @i:@item.ChapName</a></li>
+                }
+            </ul>
+        </div>
+        @if (chap.Id == chapNext)
+        {
+        }
+        else
+        {
+            int a = chap.Chap + 1;
+            <a href="/doc-truyen/@chap.Story.MetaTitle-@chap.StoryId-@a " class="btn btn-success btn-next ">
+                <span class="hidden-xs">Chương tiếp</span> <i class="fa fa-chevron-right"></i>
+            </a>
+        }
+
+    </div>
+    <hr class="chapter-end">
+    <div class="ads">
+        @Html.Raw(chap.Content)
+        <style>
+            p{
+                font-size: 20px
+            }
+        </style>
+    </div>
+
+    <hr class="chapter-end">
+    <div class="chapter-nav">
+        @if (chap.Chap == 1)
+        {
+        }
+        else
+        {
+            int a = chap.Chap - 1;
+            <a href="/doc-truyen/@chap.Story.MetaTitle-@chap.StoryId-@a " class="btn btn-success btn-prev ">
+                <i class="fa fa-chevron-left"></i> <span class="hidden-xs">Chương trước</span>
+            </a>
+        }
+        <div class="dropdown dropup">
+            <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown">
+                Chương @chap.Chap:@chap.ChapName
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu hidden">
+                @{long ia = 0; }
+                @foreach (var item in Model)
+                {
+                    ia++;
+                    <li><a href="/doc-truyen/@item.Story.MetaTitle-@item.StoryId-@ia">Chương @ia:@item.ChapName</a></li>
+                }
+                }
+            </ul>
+        </div>
+        @if (chap.Id == chapNext)
+        {
+        }
+        else
+        {
+            int a = chap.Chap + 1;
+            <a href="/doc-truyen/@chap.Story.MetaTitle-@chap.StoryId-@a " class="btn btn-success btn-next ">
+                <span class="hidden-xs">Chương tiếp</span> <i class="fa fa-chevron-right"></i>
+            </a>
+        }
+    </div>
+    <div class="chapter-comment">
+        <div class="fb-comments" data-href="http://demo6v2.wpair.net/linh-vu-thien-ha/chuong-1nhan-pham-co-van-de/" data-width="100%" data-numposts="5"></div>
+    </div>
+
+    <div class="chapter-bar hidden">
+        <div class="row">
+            <div class="col-xs-12 col-sm-3 col-md-2">
+                <a class="btn btn-primary btn-toggle-comment" href="javascript:void()"><i class="fa fa-facebook"></i> Bình luận</a>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-3">
+                <div class="chapter-nav">
+
+                    <div class="dropdown dropup hidden">
+                        <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown">Chương @chap.Chap:@chap.ChapName						<span class="caret"></span></button>
+                        <ul class="dropdown-menu hidden">
+                            @foreach (var item in Model)
+                            {
+                                i++;
+                                <li><a href="/doc-truyen/@item.Story.MetaTitle-@item.StoryId-@i">Chương @i:@item.ChapName</a></li>
+                            }
+                        </ul>
+                    </div>
+
+                    @if (chap.Chap == 0)
+                    {
+                    }
+                    else
+                    {
+                        int a = chap.Chap + 1;
+                        <a href="/doc-truyen/@chap.Story.MetaTitle-@chap.StoryId-@a" class="btn btn-success btn-next ">
+                            <span class="hidden-xs">Chương tiếp</span> <i class="fa fa-chevron-right"></i>
+                        </a>
+                    }
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-5 col-md-4">
+                <button class="btn btn-default btn-increase-font"><i class="fa fa-plus"></i> Chữ to</button>
+                <button class="btn btn-default btn-decrease-font"><i class="fa fa-minus"></i> Chữ nhỏ</button>
+                <button class="btn btn-default btn-style-dark"><i class="fa fa-moon-o"></i> Ban đêm</button>
+                <button class="btn btn-default btn-style-light hidden"><i class="fa fa-sun-o"></i> Ban ngày</button>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-3">
+                <div style="margin-top: 10px; display: inline-block;" class="clearfix">
+                    <div class="pull-left" style="margin-right: 10px;">
+                        <div class="fb-like" data-href="/doc-truyen/@chap.MetaTitle-@chap.StoryId-@chap.Chap"
+                             data-layout="button_count" data-action="like" data-show-faces="true" data-share="true">
+                        </div>
+                    </div>
+                    <div class="pull-left">
+                        <div class="g-plusone" data-size="medium" data-href="/doc-truyen/@chap.MetaTitle-@chap.StoryId-@chap.Chap"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .chapter-nav .dropdown-menu {
+            display: block !important;
+        }
+
+            .chapter-nav .dropdown-menu.hidden {
+                visibility: hidden;
+            }
+
+        .chapter-nav {
+            font-size: large;
+            color: red
+        }
+    </style>
+    <script>
+        jQuery(function ($) {
+            $('.chapter-nav .dropdown-toggle').click(function () {
+                $(this).next().toggleClass('hidden');
+            });
+            $('.chapter-nav .dropdown-menu').scrollTop($('.chapter-nav .dropdown-menu .active').position().top);
+
+            $('.btn-toggle-comment').on('click', function () {
+                $('.chapter-comment').toggleClass('active');
+            });
+            $('.btn-increase-font').on('click', function () {
+                $('.chapter-content').css({
+                    'font-size': parseInt($('.chapter-content').css('font-size')) + 10 + 'px'
+                });
+            });
+            $('.btn-decrease-font').on('click', function () {
+                $('.chapter-content').css({
+                    'font-size': parseInt($('.chapter-content').css('font-size')) - 10 + 'px'
+                });
+            });
+            $('.btn-style-dark').on('click', function () {
+                $('body').addClass('style-dark');
+                $(this).addClass('hidden');
+                $('.btn-style-light').removeClass('hidden');
+            });
+            $('.btn-style-light').on('click', function () {
+                $('body').removeClass('style-dark');
+                $(this).addClass('hidden');
+                $('.btn-style-dark').removeClass('hidden');
+            });
+        });
+    </script>
+</div>
+
+<script type="text/javascript">
+    $(document).keydown(function (e) {
+        var keypress = e.charCode ? e.charCode : e.keyCode;
+        //37:left;
+        //38:up,
+        //39:right;
+        //40:down;
+        //65: A;
+        //87:W ;
+        //68:D;
+        //83:S
+        if (keypress == 39 || keypress == 68) {
+            window.location.href = "http://demo6v2.wpair.net/linh-vu-thien-ha/chuong-2nhan-pham-co-van-de-2/";
+        } else {
+            if (keypress == 37 || keypress == 83) {
+                window.location.href = "";
+            }
+        }
+    });
+</script>

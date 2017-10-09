@@ -41,20 +41,20 @@ namespace WebDocTruyenOnline.Models
 
     public class ChangePasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage ="Bạn chưa nhập mật khẩu hiện tại")]
         [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
+        [Display(Name = "Mật khẩu hiện tại")]
         public string OldPassword { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "Mật khẩu mới tối đa {0} ký tự và tối thiểu {2} kí tự.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [Display(Name = "Mật khẩu mới")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Display(Name = "Xác thực mật khẩu mới")]
+        [Compare("NewPassword", ErrorMessage = "Mật khẩu mới và xác thực mật khẩu mới không khớp.")]
         public string ConfirmPassword { get; set; }
     }
 

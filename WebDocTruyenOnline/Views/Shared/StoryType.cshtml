@@ -1,0 +1,11 @@
+﻿@model List<WebDocTruyenOnline.Models.StoryType>
+
+<section class="section section-category">
+    <header class="section-header"><h2>Thể loại</h2></header>
+
+    @foreach (var item in Model)
+    {
+        var url = "/the-loai/"+item.MetaTitle+"-"+item.Id;
+        <div class="category-item"><a href="@url">@item.Name</a></div>
+    }
+</section>

@@ -1,44 +1,131 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <link rel="icon" type="image/png" href="http://demo1.wpair.net/wp-content/uploads/2015/04/logo.png" />
+    <meta property="og:url" content="http://demo6v2.wpair.net/" />
+    <title>Web Đọc truyện Online</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
+    <link rel="image_src" type="image/jpeg" href="http://demo1.wpair.net/wp-content/uploads/2015/04/logo.png" />
+    <meta property="og:image" content="http://demo1.wpair.net/wp-content/uploads/2015/04/logo.png" />
+    <link href="/Content/Client/font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <meta name="robots" content="index, follow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="pingback" href="http://demo6v2.wpair.net/xmlrpc.php">
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type='text/javascript'>window._sbzq || function (e) { e._sbzq = []; var t = e._sbzq; t.push(["_setAccount", 71477]); var n = e.location.protocol == "https:" ? "https:" : "http:"; var r = document.createElement("script"); r.type = "text/javascript"; r.async = true; r.src = n + "//static.subiz.com/public/js/loader.js"; var i = document.getElementsByTagName("script")[0]; i.parentNode.insertBefore(r, i) }(window);</script>
+    <!-- / Yoast SEO plugin. -->
+
+    <link rel='dns-prefetch' href='//s.w.org' />
+    <script type="text/javascript">
+        window._wpemojiSettings = { "baseUrl": "https:\/\/s.w.org\/images\/core\/emoji\/2.3\/72x72\/", "ext": ".png", "svgUrl": "https:\/\/s.w.org\/images\/core\/emoji\/2.3\/svg\/", "svgExt": ".svg", "source": { "concatemoji": "http:\/\/demo6v2.wpair.net\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.8.2" } };
+        !function (a, b, c) { function d(a) { var b, c, d, e, f = String.fromCharCode; if (!k || !k.fillText) return !1; switch (k.clearRect(0, 0, j.width, j.height), k.textBaseline = "top", k.font = "600 32px Arial", a) { case "flag": return k.fillText(f(55356, 56826, 55356, 56819), 0, 0), b = j.toDataURL(), k.clearRect(0, 0, j.width, j.height), k.fillText(f(55356, 56826, 8203, 55356, 56819), 0, 0), c = j.toDataURL(), b !== c && (k.clearRect(0, 0, j.width, j.height), k.fillText(f(55356, 57332, 56128, 56423, 56128, 56418, 56128, 56421, 56128, 56430, 56128, 56423, 56128, 56447), 0, 0), b = j.toDataURL(), k.clearRect(0, 0, j.width, j.height), k.fillText(f(55356, 57332, 8203, 56128, 56423, 8203, 56128, 56418, 8203, 56128, 56421, 8203, 56128, 56430, 8203, 56128, 56423, 8203, 56128, 56447), 0, 0), c = j.toDataURL(), b !== c); case "emoji4": return k.fillText(f(55358, 56794, 8205, 9794, 65039), 0, 0), d = j.toDataURL(), k.clearRect(0, 0, j.width, j.height), k.fillText(f(55358, 56794, 8203, 9794, 65039), 0, 0), e = j.toDataURL(), d !== e }return !1 } function e(a) { var c = b.createElement("script"); c.src = a, c.defer = c.type = "text/javascript", b.getElementsByTagName("head")[0].appendChild(c) } var f, g, h, i, j = b.createElement("canvas"), k = j.getContext && j.getContext("2d"); for (i = Array("flag", "emoji4"), c.supports = { everything: !0, everythingExceptFlag: !0 }, h = 0; h < i.length; h++)c.supports[i[h]] = d(i[h]), c.supports.everything = c.supports.everything && c.supports[i[h]], "flag" !== i[h] && (c.supports.everythingExceptFlag = c.supports.everythingExceptFlag && c.supports[i[h]]); c.supports.everythingExceptFlag = c.supports.everythingExceptFlag && !c.supports.flag, c.DOMReady = !1, c.readyCallback = function () { c.DOMReady = !0 }, c.supports.everything || (g = function () { c.readyCallback() }, b.addEventListener ? (b.addEventListener("DOMContentLoaded", g, !1), a.addEventListener("load", g, !1)) : (a.attachEvent("onload", g), b.attachEvent("onreadystatechange", function () { "complete" === b.readyState && c.readyCallback() })), f = c.source || {}, f.concatemoji ? e(f.concatemoji) : f.wpemoji && f.twemoji && (e(f.twemoji), e(f.wpemoji))) }(window, document, window._wpemojiSettings);
+    </script>
+    <style type="text/css">
+        img.wp-smiley,
+        img.emoji {
+            display: inline !important;
+            border: none !important;
+            box-shadow: none !important;
+            height: 1em !important;
+            width: 1em !important;
+            margin: 0 .07em !important;
+            vertical-align: -0.1em !important;
+            background: none !important;
+            padding: 0 !important;
+        }
+    </style>
+    <link rel='stylesheet' id='wp-pagenavi-css' href='http://demo6v2.wpair.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+    <link rel='stylesheet' id='thanhvien-css-css' href='http://demo6v2.wpair.net/wp-content/plugins/dang-ky-thanh-vien/css/thanhvien.css?ver=4.8.2' type='text/css' media='all' />
+    <link rel='stylesheet' id='wp-category-css-css' href='http://demo6v2.wpair.net/wp-content/plugins/wp-caterating/css/style.css?ver=4.8.2' type='text/css' media='all' />
+    <link rel='stylesheet' id='manga-theme-css-css' href='http://demo6v2.wpair.net/wp-content/themes/truyenfull/css/theme.min.css?ver=4.8.2' type='text/css' media='all' />
+    <link rel='stylesheet' id='manga-font-awesome-css-css' href='http://demo6v2.wpair.net/wp-content/themes/truyenfull/css/font-awesome.min.css?ver=4.8.2' type='text/css' media='all' />
+    <link rel='stylesheet' id='manga-css-css' href='http://demo6v2.wpair.net/wp-content/themes/truyenfull/style.css?ver=4.8.2' type='text/css' media='all' />
+    <link rel='stylesheet' id='manga-common-css-css' href='http://demo6v2.wpair.net/wp-content/themes/truyenfull/css/common.css?ver=4.8.2' type='text/css' media='all' />
+    <link rel='stylesheet' id='manga-post-css-css' href='http://demo6v2.wpair.net/wp-content/themes/truyenfull/css/post.css?ver=4.8.2' type='text/css' media='all' />
+
+    <link href="/Content/jquery-ui.css" rel="stylesheet" />
+    <script src="/Scripts/jquery-1.10.2.min.js"></script>
+     <script type='text/javascript' src='http://demo6v2.wpair.net/wp-content/plugins/dang-ky-thanh-vien/js/jquery-1.9.1.min.js?ver=4.8.2'></script>
+    <script src="/Scripts/jquery-ui.js"></script>
+    <script type='text/javascript' src='http://demo6v2.wpair.net/wp-content/plugins/wp-caterating/js/custom.js?ver=4.8.2'></script>
+    <script src="/Scripts/bootstrap.min.js"></script>
+    <script type='text/javascript' src='http://demo6v2.wpair.net/wp-content/themes/truyenfull/js/js.cookie.js?ver=4.8.2'></script>
+    <script type='text/javascript' src='http://demo6v2.wpair.net/wp-content/themes/truyenfull/js/common.js?ver=4.8.2'></script>
+    <link rel='https://api.w.org/' href='http://demo6v2.wpair.net/wp-json/' />
+    <link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://demo6v2.wpair.net/xmlrpc.php?rsd" />
+    <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://demo6v2.wpair.net/wp-includes/wlwmanifest.xml" />
+    <meta name="generator" content="WordPress 4.8.2" />
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+<body class="home blog">
+
+    <div class="navbar navbar-default" role="navigation" id="navigation">
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+            @Html.Partial("_LoginPartial")
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Hiện menu</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <h1 class="header-logo">
+            <a href="/" title="logo truyen">
+                <img src="http://demo1.wpair.net/wp-content/uploads/2015/04/logo.png" alt="logo truyen" title="logo truyen">
+            </a>
+        </h1>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    <div class="navbar-collapse collapse">
+
+        <ul id="menu-the-loai-o-header" class="control nav navbar-nav menu-header">
+            @{ Html.RenderAction("DanhMucHeader", "StoryCategories");}
+            @{ Html.RenderAction("TheLoaiHeader", "StoryTypes");}
+        </ul>
+        <script type="text/javascript">
+            jQuery(function ($) {
+                $('.menu-header').children('li').each(function () {
+                    if ($(this).children('.sub-menu').length) {
+                        $(this).addClass('dropdown');
+                        $(this).children('a')
+                            .addClass('dropdown-toggle')
+                            .attr({ 'data-toggle': 'dropdown' })
+                            .prepend('<span class="glyphicon glyphicon-list"></span>')
+                            .append('<span class="caret"></span>');
+                        $(this).children('.sub-menu').addClass('dropdown-menu').attr({ 'role': 'menu' });
+                    }
+                });
+            });
+        </script>
+
+        <form class="navbar-form navbar-right" action="/tim-kiem" method="get">
+            <div class="input-group">
+                <input class="form-control search_story search-input" id="txtKeyword" type="text" name="keyword" placeholder="Tìm kiếm...">
+
+                <div class="input-group-btn">
+                    <button class="btn btn-default btn-search" type="submit"><span class="glyphicon glyphicon-search fa fa-search"></span></button>
+                </div>
+            </div>
+            <div class="search-result"></div>
+        </form>
+    </div>
+    </div>
+    </div>
+    @RenderBody()
+    
+    <div id="fb-root"></div>
+
+    @{ Html.RenderAction("CuoiTrang", "Footer");}
+
+    <script type='text/javascript' src='http://demo6v2.wpair.net/wp-includes/js/wp-embed.min.js?ver=4.8.2'></script>
+    <script src="/Content/Admin/plugin/ckeditor/ckeditor.js"></script>
+
+    <div id="fb-root"></div>
+
+    <script src="/Common/BaseJs.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

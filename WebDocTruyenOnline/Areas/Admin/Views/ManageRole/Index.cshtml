@@ -1,0 +1,68 @@
+﻿@using Microsoft.AspNet.Identity.EntityFramework;
+@model IEnumerable<IdentityRole>
+
+@{
+    ViewBag.Title = "Quản lý quyền hạn người dùng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section header{
+    @ViewBag.Title
+    }
+<div class="row">
+
+    <div class="col-sm-6">
+
+        <hr />
+
+        @Html.ActionLink("Tạo role", "Create", null, new { @class = "btn btn-primary" })
+
+        <br /><br />
+
+        <table class="table table-bordered">
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Tên quyền</th>
+
+                    <th>Thao tác</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @foreach (var item in Model)
+
+                {
+
+                   
+                    <tr id="row_@item.Id">
+
+                        <td>@item.Id</td>
+
+                        <td>@item.Name</td>
+
+                        <td>@Ajax.ActionLink("Xóa", "Delete", new { @id = item.Id }, new AjaxOptions
+                        {
+                            Confirm = "Bạn có chắc chắn xóa",
+                            OnComplete = "$('#row_" + @item.Id + "').remove()",
+                            HttpMethod = "Delete"
+                        })</td>
+
+                    </tr>
+
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

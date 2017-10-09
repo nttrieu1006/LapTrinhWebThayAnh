@@ -9,17 +9,21 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using WebDocTruyenOnline.Models;
+using WebDocTruyenOnline.Common;
 
 namespace WebDocTruyenOnline.Controllers
 {
+    
     [Authorize]
     public class AccountController : Controller
     {
+        ApplicationDbContext context;
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
         public AccountController()
         {
+            context = new ApplicationDbContext();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -27,7 +31,6 @@ namespace WebDocTruyenOnline.Controllers
             UserManager = userManager;
             SignInManager = signInManager;
         }
-
         public ApplicationSignInManager SignInManager
         {
             get
@@ -72,21 +75,45 @@ namespace WebDocTruyenOnline.Controllers
             {
                 return View(model);
             }
+            if (context.Users.SingleOrDefault(m => m.Email == model.Email).Email == null)
+            {
+                ModelState.AddModelError("CustomError", "Email không tồn tại");
+                return View(model);
+            }
+            else
+            {
+                if(context.Users.SingleOrDefault(m => m.Email == model.Email).EmailConfirmed == false)
+                {
+                    ModelState.AddModelError("CustomError", "Email chưa được xác thực");
+                    return View(model);
+                }
+            }
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: true);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    {        
+                        var userSession = new UserLogin();
+                        userSession.Email = model.Email;
+                        userSession.Password = model.Password;
+                        if (context.Users.SingleOrDefault(m => m.Email == model.Email).Email == model.Email)
+                        {
+                            userSession.FullName = context.Users.SingleOrDefault(m => m.Email == model.Email).FullName.ToString();
+                        }
+                        Session.Add(CommonConstants.USER_SESSION, userSession);
+                        
+                        return RedirectToLocal(returnUrl);
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "Tài khoản hoặc mật khẩu không chính xác.");
                     return View(model);
             }
         }
@@ -139,6 +166,7 @@ namespace WebDocTruyenOnline.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
             return View();
         }
 
@@ -151,19 +179,30 @@ namespace WebDocTruyenOnline.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { Email = model.Email, UserName = model.Email, FullName=model.FullName ,Avartar =model.Avatar,};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    var userSession = new UserLogin();
+                    userSession.Email = model.Email;
+                    userSession.Password = model.Password;
+                    if (context.Users.SingleOrDefault(m => m.Email == model.Email).Email == model.Email)
+                    {
+                        userSession.FullName = context.Users.SingleOrDefault(m => m.Email == model.Email).FullName.ToString();
+                    }
+                    Session.Add(CommonConstants.USER_SESSION, userSession);
+                    //Gán Role cho user  
+
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    await UserManager.SendEmailAsync(user.Id, "Xác thực tài khoản", "Vui lòng click vào <a href=\"" + callbackUrl + "\">đây</a> để xác thực đăng kí tài khoản");
 
-                    return RedirectToAction("Index", "Home");
+                    ViewBag.ThongBao = "Vui lòng kiểm tra email để xác thực tài khoản";
+                    return View(model);
                 }
                 AddErrors(result);
             }
@@ -211,10 +250,10 @@ namespace WebDocTruyenOnline.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(user.Id, "Lấy lại mật khẩu", "Click vào <a href=\"" + callbackUrl + "\">đây</a> để lấy lại mật khẩu");
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form

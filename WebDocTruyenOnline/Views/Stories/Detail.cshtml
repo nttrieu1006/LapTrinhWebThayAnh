@@ -1,0 +1,310 @@
+﻿@model PagedList.PagedList<WebDocTruyenOnline.Models.ChapStory>
+@using PagedList.Mvc
+@using Microsoft.AspNet.Identity
+
+@{ var story = (WebDocTruyenOnline.Models.Story)ViewBag.story;
+    var folow = (WebDocTruyenOnline.Models.Folowing)ViewBag.folow;
+    ViewBag.Titile = "Chi tiết";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="navbar-breadcrumb">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li>
+                <a href="/">
+                    <i class="glyphicon glyphicon-home"></i> Trang chủ
+                </a>
+            </li>
+            <li class="active">@story.Name</li>
+        </ul>
+    </div>
+</div><div class="container">
+    <div class="row">
+        <div class="col-md-9 content">
+            <section class="section">
+                <header class="section-header">
+                    <h2>Thông tin truyện</h2>
+                </header>
+                <div class="section-content">
+                    <div class="comic-detail clearfix">
+                        <div class="col-md-4 col-sm-4 col-xs-12 info-holder">
+                            <div class="wrap-image">
+                                <img class="image" alt="@story.Name" src="@story.Image">
+                            </div>
+                            <div class="info">
+                                <div><h3>Tác giả:@story.Author.Name</h3></div>
+                                <div><h3>Thể loại:</h3><a title="@story.StoryType.Name" href="/the-loai/@story.StoryType.MetaTitle-@story.StoryType.Id">@story.StoryType.Name</a> </div>
+                                <div><h3>Trạng thái:</h3><span class="text-primary">@(story.Status == true ? "Full" : "Đang cập nhật")</span></div>
+                                <div><h3>Lượt xem:</h3>@story.Views</div>
+                                <div class="single-manga-rating">
+                                    <div id="wp-cate-rating-stars">
+
+                                        <input id="cate_rating_tb" type="hidden" value="5">
+                                        <input id="cate_rating_id" type="hidden" value="174">
+                                        <input id="cate_rating_check" type="hidden" value="0">
+                                        <img title="1" class="wp_cate_rating_img wp_cate_rating_hover_1" onmouseover="overdiem(1)" onmouseout="outdiem(this)" onclick="tinhdiem(1)" src="http://demo6v2.wpair.net/wp-content/plugins/wp-caterating/images/stars/star_25.png">
+
+                                        <img title="2" class="wp_cate_rating_img wp_cate_rating_hover_2" onmouseover="overdiem(2)" onmouseout="outdiem(this)" onclick="tinhdiem(2)" src="http://demo6v2.wpair.net/wp-content/plugins/wp-caterating/images/stars/star_25.png">
+
+                                        <img title="3" class="wp_cate_rating_img wp_cate_rating_hover_3" onmouseover="overdiem(3)" onmouseout="outdiem(this)" onclick="tinhdiem(3)" src="http://demo6v2.wpair.net/wp-content/plugins/wp-caterating/images/stars/star_25.png">
+
+                                        <img title="4" class="wp_cate_rating_img wp_cate_rating_hover_4" onmouseover="overdiem(4)" onmouseout="outdiem(this)" onclick="tinhdiem(4)" src="http://demo6v2.wpair.net/wp-content/plugins/wp-caterating/images/stars/star_25.png">
+
+                                        <img title="5" class="wp_cate_rating_img wp_cate_rating_hover_5" onmouseover="overdiem(5)" onmouseout="outdiem(this)" onclick="tinhdiem(5)" src="http://demo6v2.wpair.net/wp-content/plugins/wp-caterating/images/stars/star_25.png">
+
+
+                                    </div>
+                                    <div id="wp-cate-rating-title"></div>
+                                    <div id="wp_cate_rating_avg">5</div><!--so diem trung binh-->
+                                    <div id="wp_cate_rating_vote"> Số lượng đánh giá: 1</div><!--So danh gia-->
+                                    <div style="clear:both;"></div>
+                                </div>
+                                <div class="single-manga-follow">
+                                    @if (User.Identity.GetUserId() == null)
+                                    {
+                                        <span class="btn btn-warning"><i class="fa fa-star"></i> <span id="dkdetheodoi" data-story-id="@story.Id" onclick="alert('Bạn chưa đăng nhập')">Theo dõi</span></span>
+                                    }
+                                    else if (User.Identity.GetUserId() != null)
+                                    {
+                                        if (folow == null)
+                                        {
+                                            <span class="btn btn-warning"><i class="fa fa-star"></i> <span id="dkdetheodoi" data-story-id="@story.Id" class="js-toggle-folow">Theo dõi</span></span>
+                                        }
+
+                                        else if (story.Id == folow.StoryId && User.Identity.GetUserId() == folow.FolowerId)
+                                        {
+                                            <span class="btn btn-warning"><i class="fa fa-star"></i> <span id="dkdetheodoi" data-story-id="@story.Id" class="js-toggle-folow"> Đã Theo dõi</span></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="btn btn-warning"><i class="fa fa-star"></i> <span id="dkdetheodoi" data-story-id="@story.Id" class="js-toggle-folow">Theo dõi</span></span>
+                                        }
+
+                                    }
+                                    
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-sm-8 col-xs-12 desc">
+                            <h3 class="title" itemprop="name">@story.Name</h3>
+                            <div class="desc-text" itemprop="about">
+                                <p>@Html.Raw(story.Descirption)</p>
+                            </div>
+                            <div class="xemthem-truyen">
+                                <a class="xemthemtruyen-btn" id="xemthem-btn">Xem thêm</a>
+                            </div>
+                            <style>
+                                .desc .desc-text {
+                                    height: 100px;
+                                    overflow-y: hidden;
+                                }
+
+                                .xemthem-truyen {
+                                    margin-bottom: 30px;
+                                    margin-top: 30px;
+                                    text-align: left;
+                                }
+
+                                .xemthemtruyen-btn {
+                                    background: #286090 none repeat scroll 0 0;
+                                    color: #fff;
+                                    cursor: pointer;
+                                    padding: 5px 10px;
+                                }
+
+                                    .xemthemtruyen-btn:hover {
+                                        text-decoration: none
+                                    }
+                            </style>
+                            <script>
+
+                                $(function () { $('#xemthem-btn').click(function () { $(this).hide(); $('.desc-text').css('height', 'auto'); }); });
+                            </script>
+                            <div class="l-chapter">
+                                <div class="l-title"><h3>Các chương mới nhất</h3></div>
+                                <ul class="l-chapters">
+                                    @{int i = 0;}
+                                    @foreach (var item in Model.OrderByDescending(x => x.Chap).Take(5))
+                                    {
+                                        i++;
+                                        <li>
+                                            <span class="glyphicon glyphicon-certificate"></span>
+                                            <a title="@item.Story.Name – Chương @item.Chap" href="/doc-truyen/@item.Story.MetaTitle-@item.StoryId-@item.Chap">
+                                                <span class="chapter-text">@item.Story.Name–Chương @item.Chap</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="ads">
+                <div class="textwidget"><iframe width="728" height="90" src="http://timkiemdiadiem.com/news/id-728-90-2.html" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="overflow:hidden"></iframe></div>
+            </div>
+            <section class="section">
+                <header class="section-header">
+                    <h2>Danh sách chương</h2>
+                </header>
+                <div class="section-content">
+                    <div class="list-chapter clearfix">
+                        <table class="table borderless">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Chương</th>
+                                    <th>Cập nhật</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @{ int stt = 0;}
+                                @foreach (var item in Model.OrderBy(x => x.Chap))
+                                {
+                                    stt++;
+                                    <tr>
+                                        
+                                        <td>@stt</td>
+                                        <td><a href="/doc-truyen/@item.Story.MetaTitle-@item.StoryId-@item.Chap">@item.Story.Name – Chương @item.Chap </a></td>
+                                        <td>@(item.ModifyDate.HasValue ? item.ModifyDate : item.CreateDate)</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                    @Html.PagedListPager(Model, pageChap => Url.Action("Detail", new { pageChap }))
+                </div>
+            </section>
+            <section class="section">
+                <header class="section-header">
+                    <h2>Bình luận</h2>
+                </header>
+                <div class="section-content">
+                    <div class="comment">
+                        @*comment with FB*@
+                        <script>
+                                (function (d, s, id) {
+                                    var js, fjs = d.getElementsByTagName(s)[0];
+                                    if (d.getElementById(id)) return;
+                                    js = d.createElement(s); js.id = id;
+                                    js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.9&appId=146446775907128";
+                                    fjs.parentNode.insertBefore(js, fjs);
+                                }(document, 'script', 'facebook-jssdk'));</script>
+                        <div class="fb-comments" data-href="http://localhost:54750/truyen/@story.MetaTitle-@story.Id" data-colorscheme="light"
+                             data-numposts="5" data-width="500"></div>
+                        <!-- /.new-review-form -->
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="hidden-xs hidden-sm col-md-3 sidebar">
+            @{ Html.RenderAction("StoryType", "StoryTypes");}
+            <div class="ads">
+                <div class="textwidget"><iframe width="300" height="250" src="http://timkiemdiadiem.com/news/id-300-250-1.html" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="overflow:hidden"></iframe></div>
+            </div>
+
+            <section class="section">
+                <header class="section-header">
+                    <h2>Truyện đang hot</h2>
+                </header>
+                <div class="section-content">
+                    <ul class="nav nav-tabs nav-rank" role="tablist">
+                        <li class="nav-item active"><a class="nav-link" role="tab" href="#top-day" data-toggle="tab">Ngày</a></li>
+                        <li class="nav-item"><a class="nav-link" role="tab" href="#top-alltime" data-toggle="tab">All Time</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="top-day" role="tabpanel">
+                            @{int a = 0;}
+                            @foreach (var item in Model.OrderByDescending(x => x.Story.TopHot == DateTime.Today).ThenByDescending(x => x.Story.Views).Take(8))
+                            {
+                                a++;
+                                <div class="top-item">
+                                    <div class="top-num top-@a">@a</div>
+                                    <div class="s-title">
+                                        <h3><a title="@item.Story.Name" href="/truyen/@item.Story.MetaTitle-@item.Story.Id">@item.Story.Name</a></h3>
+                                    </div>
+                                    <div><a title="@item.Story.StoryType.Name" href="/the-loai/@item.Story.StoryType.MetaTitle-@item.Story.StoryType.Id">@item.Story.StoryType.Name</a> </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="tab-pane fade" id="top-alltime" role="tabpanel">
+                            @{int b = 0;}
+                            @foreach (var item in Model.OrderByDescending(x => x.Story.TopHot > DateTime.Now).ThenByDescending(x => x.Story.Views).Take(8))
+                            {
+                                b++;
+
+                                <div class="top-item">
+                                    <div class="top-num top-@b">@b</div>
+                                    <div class="s-title">
+                                        <h3><a title="@item.Story.Name" href="/truyen/@item.Story.MetaTitle-@item.Story.Id">@item.Story.Name</a></h3>
+                                    </div>
+                                    <div><a title="@item.Story.StoryType.Name" href="/the-loai/@item.Story.StoryType.MetaTitle-@item.Story.StoryType.Id">@item.Story.StoryType.Name</a> </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <script language="javascript" type="text/javascript">
+                                $(document).ready(function () {
+                                    $(document).on("click", "#nav a[href]", function () {
+                                        $.ajax({
+                                            url: $(this).attr("href"),
+                                            type: 'GET',
+                                            cache: false,
+                                            success: function (result) {
+                                                $('#Comments').html(result);
+                                                $('html, body').animate({
+                                                    scrollTop: $("#reviews").offset().top
+                                                }, 500);
+                                            }
+                                        });
+                                        return false;
+                                    });
+                                });
+            </script>
+            <div class="ads">
+                <div class="textwidget"><iframe width="300" height="600" src="http://timkiemdiadiem.com/news/id-300-600-1.html" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="overflow:hidden"></iframe></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+                                $(document).ready(function () {
+                                    $(".js-toggle-folow").click(function (e) {
+                                        var button = $(e.target);
+                                        if (button.text() == "Theo dõi") {
+                                            $.post("/api/folowings", { storyId: button.attr("data-story-id") })
+                                                .done(function () {
+                                                    button
+                                                        .text("Đã theo dõi");
+                                                })
+                                                .fail(function () {
+                                                    alert("Đã xảy ra lỗi!");
+                                                });
+                                        }
+                                        else {
+                                            $.ajax({
+                                                url: "/api/folowings/" + button.attr("data-story-id"),
+                                                method: "DELETE"
+                                            })
+                                                .done(function () {
+                                                    button
+                                                        .text("Theo dõi")
+                                                })
+                                                .fail(function () {
+                                                    alert("Đã xảy ra lỗi");
+                                                });
+                                        }
+                                    });
+                                });
+    </script>
+}
+
+
+

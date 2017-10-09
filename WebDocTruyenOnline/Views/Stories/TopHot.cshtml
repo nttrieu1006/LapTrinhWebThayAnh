@@ -1,0 +1,31 @@
+﻿@model List<WebDocTruyenOnline.Models.Story>
+
+
+@if (Model.Count > 0)
+{
+    foreach (var item in Model)
+    {
+        var url = "/truyen/" + item.MetaTitle + "-" + item.Id;
+        <div class="hot-comic">
+            @if (item.TypeId.HasValue == false)
+            {
+                <p>Chưa có truyện thuộc thể loại này</p>
+            }
+            else
+            {
+                <a href="@url" title="@item.Name">
+                    <img class="image" src="@item.Image" alt="@item.Name">
+                    <h5 class="name">@item.Name</h5>
+                    @if (item.Status == true)
+                    {
+                        <span class="full-label"></span>
+                    }
+                </a>
+            }
+        </div>
+    }
+}
+else
+{
+    <span>Chưa có truyện HOT thuộc thể loại này</span>
+}

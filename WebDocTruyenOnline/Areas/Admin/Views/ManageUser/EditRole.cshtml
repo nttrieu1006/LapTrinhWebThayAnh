@@ -1,0 +1,83 @@
+﻿@model WebDocTruyenOnline.Models.ApplicationUser
+@{
+    ViewBag.Title = "Sửa quyền";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section header{
+    @ViewBag.Title
+}
+
+<div class="row">
+
+    <div class="col-sm-6">
+
+        <hr />
+
+        @Model.UserName
+        @*<h5><strong>Các quyền hiện tại của thành viên @Model.Email:</strong> </h5>*@
+
+        <table class="table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Quyền</th>
+
+                    <th></th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+                <tr>
+
+                    @foreach (var item in Model.Roles)
+
+                    {
+                        <td>@item.RoleId</td>
+
+                            <td>
+
+                                <form action="@Url.Action("DeleteRoleFromUser", new { UserId = item.UserId, RoleId = item.RoleId })" method="post">
+
+                                    @Html.AntiForgeryToken()
+
+                                    <button type="submit" class="btn btn-xs btn-danger">Gỡ bỏ</button>
+
+                                </form>
+
+                            </td>
+                    }
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <h5><strong>Thêm quyền cho thành viên này:</strong></h5>
+        @using (Html.BeginForm("AddToRole", "ManageUser", FormMethod.Post))
+        {
+            <input type="hidden" name="UserId" value="@Url.RequestContext.RouteData.Values["Id"]" />
+
+            @Html.AntiForgeryToken()
+
+            @Html.DropDownList("RoleId", null, new { @class = "form-control", multiple = "multiple" })
+
+            <div class="form-group">
+
+                <br />
+
+                <button type="submit" class="btn btn-primary">Thêm </button>
+
+            </div>
+        }
+
+
+    </div>
+
+</div>
+

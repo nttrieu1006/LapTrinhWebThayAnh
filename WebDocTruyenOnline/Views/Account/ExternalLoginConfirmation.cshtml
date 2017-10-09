@@ -9,13 +9,12 @@
 {
     @Html.AntiForgeryToken()
 
-    <h4>Association Form</h4>
+    <h4>Đăng kí thành viên</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <p class="text-info">
-        You've successfully authenticated with <strong>@ViewBag.LoginProvider</strong>.
-        Please enter a user name for this site below and click the Register button to finish
-        logging in.
+        Bạn đã xác thực thành công với facebook <strong>@ViewBag.LoginProvider</strong>.
+        Nhập email bên dưới để thực hiện đăng ký thành viên
     </p>
     <div class="form-group">
         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
@@ -26,7 +25,7 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
+            <input type="submit" class="btn btn-default" value="Đăng kí" />
         </div>
     </div>
 }
