@@ -12,16 +12,16 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
 
     public class BaseController : Controller
     {
-        protected override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            var session = (UserLogin)Session[CommonConstants.USER_SESSION];
-            if(session == null)
-            {
-                filterContext.Result = new RedirectToRouteResult(new
-                    RouteValueDictionary(new { controller = "Account", action = "Login", Area = ""}));
-            }
-            base.OnActionExecuting(filterContext);
-        }
+        //protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        //{
+        //    var session = (UserLogin)Session[CommonConstants.USER_SESSION];
+        //    if(session == null)
+        //    {
+        //        filterContext.Result = new RedirectToRouteResult(new
+        //            RouteValueDictionary(new { controller = "Account", action = "Login", Area = ""}));
+        //    }
+        //    base.OnActionExecuting(filterContext);
+        //}
         public void SetAlert(string message, string type)
         {
             TempData["AlertMessage"] = message;

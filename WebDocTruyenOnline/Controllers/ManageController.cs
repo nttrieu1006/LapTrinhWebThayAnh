@@ -25,7 +25,48 @@ namespace WebDocTruyenOnline.Controllers
             UserManager = userManager;
             SignInManager = signInManager;
         }
+        private ApplicationDbContext context = new ApplicationDbContext();
+        //Edit UserInfo
+        public ActionResult Edit(string Id)
 
+        {
+            ApplicationUser model = context.Users.Find(Id);
+
+            ViewBag.RoleId = new SelectList(context.Roles.ToList(), "Name", "Name");
+
+            return View(model);
+
+        }
+
+        [HttpPost]
+
+        [ValidateAntiForgeryToken]
+
+        public ActionResult Edit([Bind(Include = "Id,UserName,Email,AccessFailedCount,Claims,EmailConfirmed,LockoutEnabled,LockoutEndDateUtc,PasswordHash,PhoneNumber,PhoneNumberConfirmed,SecurityStamp,TwoFactorEnabled,FullName,Address,Avartar")] ApplicationUser user)
+
+        {
+
+            try
+
+            {
+                context.Entry(user).State = System.Data.Entity.EntityState.Modified;
+
+                context.SaveChanges();
+
+                return RedirectToAction("Index","Home");
+
+            }
+
+            catch (Exception ex)
+
+            {
+
+                ModelState.AddModelError("", ex.Message);
+
+                return View(user);
+
+            }
+        }
         public ApplicationSignInManager SignInManager
         {
             get

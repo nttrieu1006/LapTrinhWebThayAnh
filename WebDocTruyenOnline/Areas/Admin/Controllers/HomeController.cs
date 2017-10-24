@@ -1,11 +1,14 @@
-﻿using System.Linq;
+﻿using Microsoft.AspNet.Identity;
+using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using WebDocTruyenOnline.Common;
 using WebDocTruyenOnline.Models;
 
 namespace WebDocTruyenOnline.Areas.Admin.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Quản Trị")]
+    
     public class HomeController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
@@ -15,13 +18,15 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
             
             return View();
         }
+        [ChildActionOnly]
         public PartialViewResult Info()
         {
-            var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
-            var user = db.Users.SingleOrDefault(m => m.Email == sess.Email);
-            ViewBag.Avatar = user.Avartar;
-            ViewBag.FullName = user.FullName;
-            return PartialView();
+            string email = User.Identity.GetUserName();
+            var user = db.Users.SingleOrDefault(m => m.Email == email);
+                ViewBag.Avatar = user.Avartar;
+                ViewBag.FullName = user.FullName;
+                return PartialView();
+
         }
 
     }

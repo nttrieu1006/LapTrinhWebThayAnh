@@ -16,7 +16,7 @@ namespace WebDocTruyenOnline.Controllers
             return View();
         }
         [ChildActionOnly]
-        [OutputCache(Duration =3600)]
+
         public PartialViewResult DanhMucHeader()
         {
             var model = db.StoryCategories.Where(m => m.Status == true && m.ShowOnHome == true).OrderBy(x => x.Name).Take(4).ToList();

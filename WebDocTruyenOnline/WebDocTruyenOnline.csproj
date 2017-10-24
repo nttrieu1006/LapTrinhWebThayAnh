@@ -270,6 +270,7 @@
     <Compile Include="Areas\Admin\Controllers\StoryTypesController.cs" />
     <Compile Include="Common\CommonConstants.cs" />
     <Compile Include="Common\ConvertToUnSign.cs" />
+    <Compile Include="Common\ErrorMessage.cs" />
     <Compile Include="Common\UserLogin.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ChapStoriesController.cs" />
@@ -1334,6 +1335,21 @@
     <Content Include="Content\Client\font-awesome-4.7.0\font-awesome-4.7.0\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\Client\font-awesome-4.7.0\font-awesome-4.7.0\HELP-US-OUT.txt" />
     <Content Include="Content\Client\Jfooter.js" />
+    <Content Include="Content\Client\LayoutCss\autosearch.css" />
+    <Content Include="Content\Client\LayoutCss\category-css.css" />
+    <Content Include="Content\Client\LayoutCss\common.css" />
+    <Content Include="Content\Client\LayoutCss\font-awesome.min.css" />
+    <Content Include="Content\Client\LayoutCss\manga-common.css" />
+    <Content Include="Content\Client\LayoutCss\manga-post.css" />
+    <Content Include="Content\Client\LayoutCss\manga=css.css" />
+    <Content Include="Content\Client\LayoutCss\pagenavi-css.css" />
+    <Content Include="Content\Client\LayoutCss\thanhvien.css" />
+    <Content Include="Content\Client\LayoutCss\theme.min.css" />
+    <Content Include="Content\Client\LayoutJs\common.js" />
+    <Content Include="Content\Client\LayoutJs\cookie.js" />
+    <Content Include="Content\Client\LayoutJs\custom.js" />
+    <Content Include="Content\Client\LayoutJs\jquery-1.9.1.js" />
+    <Content Include="Content\Client\LayoutJs\wp-embed.js" />
     <Content Include="Content\Client\Login\css\style.css" />
     <Content Include="Content\Client\Login\js\index.js" />
     <Content Include="Content\jquery-ui.css" />
@@ -1364,7 +1380,6 @@
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Stories\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Stories\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Stories\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Stories\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Stories\MultiDelete.cshtml" />
@@ -1390,22 +1405,18 @@
     <Content Include="Content\Admin\plugin\ckfinder\skins\bootstrap\assets\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\Admin\plugin\ckfinder\userfiles\.htaccess" />
     <Content Include="Areas\Admin\Views\StoryCategories\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\StoryCategories\Details.cshtml" />
     <Content Include="Areas\Admin\Views\StoryCategories\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\StoryCategories\Index.cshtml" />
     <Content Include="Areas\Admin\Views\StoryCategories\MultiDelete.cshtml" />
     <Content Include="Areas\Admin\Views\StoryTypes\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\StoryTypes\Details.cshtml" />
     <Content Include="Areas\Admin\Views\StoryTypes\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\StoryTypes\Index.cshtml" />
     <Content Include="Areas\Admin\Views\StoryTypes\MultiDelete.cshtml" />
     <Content Include="Areas\Admin\Views\Authors\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Authors\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Authors\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Authors\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Authors\MultiDelete.cshtml" />
     <Content Include="Areas\Admin\Views\ChapStories\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\ChapStories\Details.cshtml" />
     <Content Include="Areas\Admin\Views\ChapStories\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\ChapStories\Index.cshtml" />
     <Content Include="Areas\Admin\Views\ChapStories\MultiDelete.cshtml" />
@@ -1478,8 +1489,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -1518,6 +1527,7 @@
     <Content Include="Views\Stories\Folowing.cshtml" />
     <Content Include="Views\Stories\Search.cshtml" />
     <Content Include="Views\Shared\Login_Register.cshtml" />
+    <Content Include="Views\Manage\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

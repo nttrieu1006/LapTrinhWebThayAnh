@@ -1,0 +1,281 @@
+.unclock
+{
+cursor: pointer;
+}
+.unclock a
+{
+	cursor: pointer;
+	color: red;
+}
+.title_sua
+{
+	font-size: 17px;
+	font-weight: bold;
+	line-height: 20px;
+
+}
+
+.user-menu {
+	float: right;
+	margin-left: 10px;
+	position: relative;
+}
+.user-menu .username {
+	font-weight: 700;
+	color: #FE8929;
+}
+.user-menu .icon {
+	margin-left: 10px;
+	background: #337ab7;
+	padding: 6px 12px;
+	color: #fff;
+	font-weight: 700;
+	display: inline-block;
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+}
+.user-menu .icon:hover {
+	text-decoration: none;
+	background: #286090;
+}
+.user-menu .popover .tab-pane .icon {
+	margin-left: 10px;
+	margin-right: 10px;
+	display: inline-block;
+}
+.user-menu .message {
+	margin-left: 0px;
+}
+.user-menu .popover {
+	width: 330px;
+	max-width: 330px;
+	left: auto !important; right: 0px;
+	font-family: 'Roboto Condensed';
+}
+.user-menu .popover-title {
+	background: #111111;
+	border-color: #333333;
+}
+.user-menu .popover .arrow {
+	left: auto !important;
+	right: 40px;
+}
+.user-menu .popover-content .table {
+	margin-bottom: 0px;
+}
+.user-menu .popover-content .table a {
+	color: #ddd;
+}
+.user-menu .popover-content .table a:hover {
+	color: #fff;
+}
+.user-menu .popover .table td {
+	border-color: #333333;
+}
+.user-menu .popover .tab-pane {
+	background: #333333;
+	color: #fff;
+	padding: 20px 15px;
+}
+.user-menu .popover .nav li a {
+	background: #000;
+	color: #fff;
+	border-radius: 0px;
+}
+.user-menu .popover .nav li a:hover,
+.user-menu .popover .nav li.active a {
+	background: #333333;
+	color: #fff;
+}
+
+.form-login {
+	color: #333333;
+}
+.form-login .title {
+	font-size: 16px; font-weight: 700;
+	text-transform: uppercase;
+	color: #555555;
+	margin-bottom: 20px;
+}
+#modal-login-register .modal-body {
+	padding: 50px 30px 20px;
+}
+#modal-login-register .close {
+	margin: 0px;
+	display: block;
+	position: absolute; right: 0; top: 0;
+	font-size: 24px; font-weight: 400;
+	cursor: pointer;
+	width: 45px;
+	height: 24px; line-height: 24px;
+	color: #ccc;
+	transition: all 0.2s ease 0s;
+	text-align: center;
+	border-left: 1px solid #ccc;
+	opacity: 1;
+}
+#modal-login-register .close:hover {
+	color: #fff;
+	background: #ea3110; /* Old browsers */
+	background: -moz-linear-gradient(top,  #ea3110 0%, #fce5e1 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ea3110), color-stop(100%,#fce5e1)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #ea3110 0%,#fce5e1 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #ea3110 0%,#fce5e1 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #ea3110 0%,#fce5e1 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #ea3110 0%,#fce5e1 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ea3110', endColorstr='#fce5e1',GradientType=0 ); /* IE6-9 */
+}
+
+.form-login {
+	padding-left: 20px;
+}
+.form-login .login-username,
+.form-login .login-submit {
+	margin-bottom: 15px;
+}
+.form-login .login-password,
+.form-login .login-remember {
+	margin-bottom: 8px;
+}
+.form-login label {
+	display: block;
+}
+.form-login .login-remember label {
+	width: auto; 
+}
+.form-login input[type="radio"], 
+.form-login input[type="checkbox"] {
+	margin: 3px; 
+	display: inline-block;
+	vertical-align: middle;
+}
+.form-control {
+	box-shadow: none !important;
+	
+}
+.form-login .input {
+	background-color: #fff;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-shadow: none;
+	height: 34px;
+	padding: 6px 12px;
+	transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+	width: 100%;
+}
+.form-login .input:hover,
+.form-login .input:focus {
+	border-color: #66afe9;
+}
+.form-login .button-primary {
+	-moz-user-select: none;
+	border: 1px solid transparent;
+	border-radius: 0;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.42857;
+	margin-bottom: 0;
+	padding: 6px 12px;
+	text-align: center;
+	vertical-align: middle;
+	white-space: nowrap;
+	background-color: #337ab7;
+	border-color: #2e6da4;
+	color: #fff;
+	border-radius: 4px;
+}
+.form-login .button-primary:hover {
+	background: #286090;
+	border-color: #204d74;
+}
+
+.form-dangky {
+	background: #fff;
+	color: #333333;
+}
+.form-dangky .title {
+	font-size: 16px; font-weight: 700;
+	margin-bottom: 20px;
+	text-transform: uppercase;
+}
+.form-dangky * {
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+.form-dangky .error {
+	color: #CC0033;
+}
+
+.form-reset {
+	padding: 20px;
+	background: #fff;
+	max-width: 380px;
+	float: right;
+}
+.form-reset .title {
+	font-size: 24px; font-weight: 700;
+	margin-bottom: 20px;
+}
+.form-reset * {
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
+#user-info {
+	color: #333333;
+	background: #fff;
+	padding: 0px 10px;
+}
+#user-info a {
+	color: #333333;
+}
+#user-info .title {
+	font-size: 24px; font-weight: 700;
+	margin-top: 20px; margin-bottom: 20px;
+}
+#user-info .active {
+	color: #333333; font-weight: 400;
+}
+#user-info .panel .panel-heading {
+	font-size: 16px; font-weight: 700;
+}
+#user-info .panel-feature .panel-body {
+	padding: 5px 0px;
+}
+#user-info .panel .panel-body p {
+	margin-bottom: 10px;
+}
+#user-info .nav-pills > li.active > a, 
+#user-info .nav-pills > li.active > a:focus,
+#user-info .nav-pills > li.active > a:hover {
+  background-color: #5cb85c;
+  color: #fff;
+}
+#user-info .tab-pane h4 {
+	margin-top: 0px; margin-bottom: 20px;
+	font-size: 16px; font-weight: 700;
+}
+#user-info table td { 
+	vertical-align: top;
+}
+#user-info table .text_note {
+	font-style: italic;
+	font-size: 11px;
+	color: #999999;
+	margin-bottom: 15px;
+}
+#user-info table .txtSignUp {
+	margin-bottom: 3px;
+}
+
+.modal-backdrop {
+	display: none;
+}
+
+
+

@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using WebDocTruyenOnline.Common;
 
 namespace WebDocTruyenOnline.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
-        [Required(ErrorMessage ="Email không được để trống")]
+        [Required(ErrorMessage = ErrorMessage.Required)]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
@@ -41,7 +42,7 @@ namespace WebDocTruyenOnline.Models
 
     public class ForgotViewModel
     {
-        [Required(ErrorMessage = "Email không được để trống")]
+        [Required(ErrorMessage = ErrorMessage.Required)]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }

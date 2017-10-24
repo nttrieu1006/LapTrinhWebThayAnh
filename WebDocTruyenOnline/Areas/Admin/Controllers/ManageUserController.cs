@@ -13,6 +13,8 @@ using WebDocTruyenOnline.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using WebDocTruyenOnline.Common;
 using System.Net;
+using Microsoft.AspNet.Identity;
+using System.Web.Security;
 
 namespace WebDocTruyenOnline.Areas.Admin.Controllers
 
@@ -42,8 +44,6 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         {
 
             ApplicationUser model = context.Users.Find(Id);
-            
-            ViewBag.RoleId = new SelectList(context.Roles.ToList(), "Name", "Name");
 
             return View(model);
 
@@ -56,53 +56,58 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         public ActionResult Edit(ApplicationUser model)
 
         {
-            if (ModelState.IsValid)
-            {
 
+            try
+
+            {
 
                 context.Entry(model).State = System.Data.Entity.EntityState.Modified;
+
                 context.SaveChanges();
+
                 return RedirectToAction("Index");
+
             }
-            ViewBag.RoleId = new SelectList(context.Roles.ToList(), "Name", "Name");
-            return View(model);
-            //try
 
-            //{
+            catch (Exception ex)
 
-            //    context.Entry(model).State = System.Data.Entity.EntityState.Modified;
+            {
 
-            //    context.SaveChanges();
+                ModelState.AddModelError("", ex.Message);
 
-            //    return RedirectToAction("Index");
+                return View(model);
 
-            //}
+            }
 
-            //catch (Exception ex)
-
-            //{
-
-            //    ModelState.AddModelError("", ex.Message);
-
-            //    return View(model);
-
-            //}
-            
         }
 
+        [HttpGet]
         public ActionResult EditRole(string Id)
 
-        {
+         {
 
-            if (Id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (Id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                else
+                {
+                    ApplicationUser model = context.Users.Find(Id);
+
+                    ViewBag.RoleId = new SelectList(context.Roles.ToList(), "Name", "Name");
+
+                    return View(model);
+                }
             }
-            var model = context.Users.Find(Id);
+            catch (Exception ex)
+            {
 
-            ViewBag.RoleId = new SelectList(context.Roles.ToList(), "Name", "Name");
+                ModelState.AddModelError("", ex.Message);
 
-            return View(model);
+                return View();
+            }
 
         }
 
@@ -110,22 +115,32 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
 
         [ValidateAntiForgeryToken]
 
-        public ActionResult AddToRole(string UserId, string[] RoleId)
+        public ActionResult AddToRole(string UserId, string RoleId)
 
         {
-
-            ApplicationUser model = context.Users.Find(UserId);
-
-            IdentityRole role = context.Roles.Find(RoleId);
-
-            model.Roles.Add(new IdentityUserRole() { UserId = UserId, RoleId = role.Id });
-
-            context.SaveChanges();
+            try
+            {
 
 
-            ViewBag.RoleId = new SelectList(context.Roles.ToList().Where(item => model.Roles.FirstOrDefault(r => r.RoleId == item.Id) == null).ToList(), "Id", "Name");
+                ApplicationUser model = context.Users.Find(UserId);
 
-            return RedirectToAction("EditRole", new { Id = UserId });
+                IdentityRole role = context.Roles.SingleOrDefault(m=>m.Name == RoleId);
+
+                model.Roles.Add(new IdentityUserRole() { UserId = UserId, RoleId = role.Id });
+
+                context.SaveChanges();
+
+                ViewBag.RoleId = new SelectList(context.Roles.ToList().Where(item => model.Roles.FirstOrDefault(r => r.RoleId == item.Id) == null).ToList(), "Id", "Name");
+
+                return RedirectToAction("EditRole", new { Id = UserId });
+            }
+            catch(Exception ex)
+            {
+
+                ModelState.AddModelError("", ex.Message);
+
+                return View();
+            }
 
         }
 
@@ -136,15 +151,24 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         public ActionResult DeleteRoleFromUser(string UserId, string RoleId)
 
         {
+            try
+            {
+                ApplicationUser model = context.Users.Find(UserId);
+                model.Roles.Remove(model.Roles.SingleOrDefault(m => m.RoleId == RoleId));
 
-            ApplicationUser model = context.Users.Find(UserId);
-            model.Roles.Remove(model.Roles.Single(m => m.RoleId == RoleId));
+                context.SaveChanges();
 
-            context.SaveChanges();
+                ViewBag.RoleId = new SelectList(context.Roles.ToList().Where(item => model.Roles.FirstOrDefault(r => r.RoleId == item.Id) == null).ToList(), "Id", "Name");
 
-            ViewBag.RoleId = new SelectList(context.Roles.ToList().Where(item => model.Roles.FirstOrDefault(r => r.RoleId == item.Id) == null).ToList(), "Id", "Name");
+                return RedirectToAction("EditRole", new { Id = UserId });
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
 
-            return RedirectToAction("EditRole", new { Id = UserId });
+                return View();
+            }
+            
 
         }
 
@@ -155,6 +179,14 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
             context.Users.Remove(model);
             context.SaveChanges();
             return RedirectToAction("Index");
+        }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                context.Dispose();
+            }
+            base.Dispose(disposing);
         }
 
     }

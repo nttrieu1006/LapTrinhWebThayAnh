@@ -29,20 +29,6 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         }
 
         // GET: Admin/Stories/Details/5
-        public ActionResult Details(long? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Story story = db.Stories.Find(id);
-            if (story == null)
-            {
-                return HttpNotFound();
-            }
-           
-            return View(story);
-        }
 
         // GET: Admin/Stories/Create
         public ActionResult Create()
@@ -64,22 +50,28 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                    var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
+                    //var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
                     story.CreateDate = DateTime.Now;
-                    story.CreateBy = sess.Email;
+                    story.CreateBy = User.Identity.GetUserName();
                     story.MetaTitle = ConvertToUnSign.convertToUnSign(story.Name);
                     story.Views = 0;
 
                     db.Stories.Add(story);
                     db.SaveChanges();
                 SetAlert("Tạo truyện thành công! Bạn vui lòng tạo chap truyện", "success");
+                ViewBag.AuthorId = new SelectList(db.Authors, "Id", "Name", story.AuthorId);
+                ViewBag.CategoryId = new SelectList(db.StoryCategories, "Id", "Name", story.CategoryId);
+                ViewBag.TypeId = new SelectList(db.StoryTypes, "Id", "Name", story.TypeId);
                 return RedirectToAction("Create","ChapStories");
             }
+            else
+            {
+                ModelState.AddModelError("", "Đã xảy ra lỗi");
+                return View();
+            }
 
-            ViewBag.AuthorId = new SelectList(db.Authors, "Id", "Name", story.AuthorId);
-            ViewBag.CategoryId = new SelectList(db.StoryCategories, "Id", "Name", story.CategoryId);
-            ViewBag.TypeId = new SelectList(db.StoryTypes, "Id", "Name", story.TypeId);
-            return View(story);
+            
+            
         }
 
         // GET: Admin/Stories/Edit/5
@@ -111,9 +103,9 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
+                //var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
                 story.ModifyDate = DateTime.Now;
-                story.ModifyBy = sess.Email;
+                story.ModifyBy = User.Identity.GetUserName();
                 story.MetaTitle = ConvertToUnSign.convertToUnSign(story.Name);
 
                 db.Entry(story).State = EntityState.Modified;
@@ -170,8 +162,8 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
             }
             catch (Exception e)
             {
-                SetAlert("Đã xảy ra lỗi", "error");
-                return RedirectToAction("Index");
+                ModelState.AddModelError("", "Đã xảy ra lỗi");
+                return View();
             }
         }
         // GET: Admin/Stories/Delete/5
@@ -186,13 +178,13 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
                 db.Stories.Remove(story);
                 db.SaveChanges();
                 SetAlert("Xóa thành công!", "success");
-                return RedirectToAction("Index");
             }
-            catch(Exception e)
+            catch
             {
-                SetAlert("Đã xảy ra lỗi", "error");
-                return RedirectToAction("Index");
+                ModelState.AddModelError("","Đã xảy ra lỗi");
             }
+            return RedirectToAction("Index");
+
         }
 
         protected override void Dispose(bool disposing)

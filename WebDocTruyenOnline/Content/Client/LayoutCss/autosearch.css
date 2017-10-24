@@ -1,0 +1,46 @@
+.search-result {
+	position: absolute;
+	background: #fff;
+	z-index: 999;
+	display: none;
+	border-left: 1px solid #eeeeee;
+	border-right: 1px solid #eeeeee;
+}
+.search-result ul {
+	padding: 0px;
+	list-style: none;
+	margin-bottom: 0px;
+}
+.search-result ul li {
+	border-bottom: 1px solid #eeeeee;
+	padding: 10px;
+}
+.search-result .comic-image {
+	width: 35px; height: 40px;
+	float: left;
+	margin-right: 10px;
+	color: transparent;
+}
+.search-result .comic-name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: 12px;
+	color: #333;
+	margin-bottom: 3px;
+}
+.search-result .comic-chapter {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	margin-bottom: 0px;
+	font-size: 12px;
+}
+.search-result .loadding {
+	background-image: url('../images/loading1.gif');
+	background-repeat: no-repeat;
+	background-color: #3c3c3c;
+	background-size: auto 100%;
+	padding: 50px;
+	background-position: center;
+}

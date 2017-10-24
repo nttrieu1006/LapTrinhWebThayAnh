@@ -96,14 +96,14 @@ namespace WebDocTruyenOnline.Controllers
             {
                 case SignInStatus.Success:
                     {        
-                        var userSession = new UserLogin();
-                        userSession.Email = model.Email;
-                        userSession.Password = model.Password;
-                        if (context.Users.SingleOrDefault(m => m.Email == model.Email).Email == model.Email)
-                        {
-                            userSession.FullName = context.Users.SingleOrDefault(m => m.Email == model.Email).FullName.ToString();
-                        }
-                        Session.Add(CommonConstants.USER_SESSION, userSession);
+                        //var userSession = new UserLogin();
+                        //userSession.Email = model.Email;
+                        //userSession.Password = model.Password;
+                        //if (context.Users.SingleOrDefault(m => m.Email == model.Email).Email == model.Email)
+                        //{
+                        //    userSession.FullName = context.Users.SingleOrDefault(m => m.Email == model.Email).FullName.ToString();
+                        //}
+                        //Session.Add(CommonConstants.USER_SESSION, userSession);
                         
                         return RedirectToLocal(returnUrl);
                     }

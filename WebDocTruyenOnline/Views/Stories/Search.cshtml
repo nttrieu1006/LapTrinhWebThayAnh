@@ -58,16 +58,17 @@
                 }
                 else
                 {
-                    <h2>Không  tìm thấy truyện bạn đang yêu cầu</h2>
+                    <h2>Không  tìm thấy truyện bạn yêu cầu</h2>
                 }
+                </div>
+                <div class="nav-pagination">
+                    <div class='wp-pagenavi'>
+                        @Html.PagedListPager(Model, pageIndex => Url.Action("Search", new { pageIndex }))
+                    </div>
                 </div>
             </section>
 
-            <div class="nav-pagination">
-                <div class='wp-pagenavi'>
-                    @Html.PagedListPager(Model, pageIndex => Url.Action("Type", new { pageIndex }))
-                </div>
-            </div>
+            
         </div>
         <div class="hidden-xs hidden-sm col-md-3 sidebar">
             @{ Html.RenderAction("StoryType", "StoryTypes");}

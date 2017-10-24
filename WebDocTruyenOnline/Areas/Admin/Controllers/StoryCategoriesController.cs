@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -30,20 +31,6 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         }
 
         // GET: Admin/StoryCategories/Details/5
-        public ActionResult Details(long? id)
-        {
-          
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            StoryCategory storyCategory = db.StoryCategories.Find(id);
-            if (storyCategory == null)
-            {
-                return HttpNotFound();
-            }
-            return View(storyCategory);
-        }
 
         // GET: Admin/StoryCategories/Create
         public ActionResult Create()
@@ -61,9 +48,9 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
+                //var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
                 storyCategory.CreateDate = DateTime.Now;
-                storyCategory.CreateBy = sess.Email;
+                storyCategory.CreateBy = User.Identity.GetUserName();
                 storyCategory.MetaTitle = ConvertToUnSign.convertToUnSign(storyCategory.Name);
                 storyCategory.ShowOnHome = true;
                 storyCategory.Status = true;
@@ -102,9 +89,9 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
+                //var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
                 storyCategory.ModifyDate = DateTime.Now;
-                storyCategory.ModifyBy = sess.Email;
+                storyCategory.ModifyBy = User.Identity.GetUserName();
                 storyCategory.MetaTitle = ConvertToUnSign.convertToUnSign(storyCategory.Name);
 
                 db.Entry(storyCategory).State = EntityState.Modified;
@@ -130,15 +117,23 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult MultiDelete(int[] chkId)
         {
-            for (int i = 0; i < chkId.Length; i++)
+            try
             {
-                int temp = chkId[i];
-                var article = db.StoryCategories.Find(temp);
-                db.StoryCategories.Remove(article);
+                for (int i = 0; i < chkId.Length; i++)
+                {
+                    int temp = chkId[i];
+                    var article = db.StoryCategories.Find(temp);
+                    db.StoryCategories.Remove(article);
+                }
+                this.db.SaveChanges();
+                SetAlert("Xóa thành công!", "success");
+                return RedirectToAction("Index");
             }
-            this.db.SaveChanges();
-            SetAlert("Xóa thành công!", "success");
-            return RedirectToAction("Index");
+            catch
+            {
+                ModelState.AddModelError("", "Đã xảy ra lỗi");
+                return View();
+            }
         }
 
         // POST: Admin/StoryCategories/Delete/5

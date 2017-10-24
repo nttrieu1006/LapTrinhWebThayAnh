@@ -30,10 +30,12 @@ namespace WebDocTruyenOnline.Controllers
 
             return View();
         }
+
         public ActionResult DangKi()
         {
             return PartialView();
         }
+
         public ActionResult DangNhap()
         {
             return PartialView();

@@ -1,71 +1,102 @@
-﻿@model WebDocTruyenOnline.Models.ApplicationUser
+﻿@using WebDocTruyenOnline.Models;
+@model ApplicationUser
+
 @{
+
     ViewBag.Title = "Sửa quyền";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
 }
 
 @section header{
     @ViewBag.Title
+    }
+@section jsFooter {
+    @Scripts.Render("~/bundles/jqueryval")
 }
-
 <div class="row">
 
     <div class="col-sm-6">
 
+        <h2>@ViewBag.Title</h2>
+
         <hr />
 
-        @Model.UserName
-        @*<h5><strong>Các quyền hiện tại của thành viên @Model.Email:</strong> </h5>*@
 
         <table class="table">
 
             <thead>
+                @try
+                {
+                    <tr>
 
-                <tr>
+                        <th>Quyền thành viên @Model.Email</th>
 
-                    <th>Quyền</th>
+                        <th></th>
 
-                    <th></th>
-
-                </tr>
+                    </tr>
+                }
+                catch { }
 
             </thead>
 
             <tbody>
-                <tr>
+            @try
+            {
+                if (Model.Roles.Count > 0)
 
-                    @foreach (var item in Model.Roles)
+                {
+
+                    foreach (var item in Model.Roles)
 
                     {
-                        <td>@item.RoleId</td>
 
-                            <td>
 
-                                <form action="@Url.Action("DeleteRoleFromUser", new { UserId = item.UserId, RoleId = item.RoleId })" method="post">
+                <tr>
 
-                                    @Html.AntiForgeryToken()
+                    <td>@item.RoleId</td>
 
-                                    <button type="submit" class="btn btn-xs btn-danger">Gỡ bỏ</button>
+                    <td>
 
-                                </form>
+                        <form action="@Url.Action("DeleteRoleFromUser", new { UserId = item.UserId, RoleId = item.RoleId })" method="post">
 
-                            </td>
-                    }
+                            @Html.AntiForgeryToken()
+
+                            <button type="submit" class="btn btn-xs btn-danger">Gỡ bỏ</button>
+
+                        </form>
+
+                    </td>
 
                 </tr>
 
+                    }
+
+                }
+                else
+                {
+                <td colspan="2">
+
+                <p>Thành viên chưa có quyền nào</p>
+
+                </td>
+                    }
+
+               }
+                catch { } 
             </tbody>
 
         </table>
 
         <h5><strong>Thêm quyền cho thành viên này:</strong></h5>
-        @using (Html.BeginForm("AddToRole", "ManageUser", FormMethod.Post))
-        {
+
+        <form action="@Url.Action("AddToRole")" method="post">
+
             <input type="hidden" name="UserId" value="@Url.RequestContext.RouteData.Values["Id"]" />
 
             @Html.AntiForgeryToken()
 
-            @Html.DropDownList("RoleId", null, new { @class = "form-control", multiple = "multiple" })
+            @Html.ListBox("RoleId", null, new { @class = "form-control", multiple = "multiple" })
 
             <div class="form-group">
 
@@ -74,10 +105,9 @@
                 <button type="submit" class="btn btn-primary">Thêm </button>
 
             </div>
-        }
 
+        </form>
 
     </div>
 
 </div>
-

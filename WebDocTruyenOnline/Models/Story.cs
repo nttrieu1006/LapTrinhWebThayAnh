@@ -5,6 +5,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using WebDocTruyenOnline.Common;
 
     [Table("Story")]
     public partial class Story
@@ -18,7 +19,7 @@
         public long Id { get; set; }
 
         [Display(Name="Tên truyện")]
-        [Required(ErrorMessage =("Tên truyện không được để trống"))]
+        [Required(ErrorMessage = ErrorMessage.Required)]
         [StringLength(250)]
         public string Name { get; set; }
 

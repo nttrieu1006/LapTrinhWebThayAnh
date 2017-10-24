@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -30,20 +31,6 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         }
 
         // GET: Admin/StoryTypes/Details/5
-        public ActionResult Details(long? id)
-        {
-          
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            StoryType storyType = db.StoryTypes.Find(id);
-            if (storyType == null)
-            {
-                return HttpNotFound();
-            }
-            return View(storyType);
-        }
 
         // GET: Admin/StoryTypes/Create
         public ActionResult Create()
@@ -61,9 +48,9 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
+                //var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
                 storyType.CreateDate = DateTime.Now;
-                storyType.CreateBy = sess.Email;
+                storyType.CreateBy = User.Identity.GetUserName();
                 storyType.MetaTitle = ConvertToUnSign.convertToUnSign(storyType.Name);
                 storyType.Status = true;
                 storyType.ShowOnHome = true;
@@ -102,9 +89,9 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
+                //var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
                 storyType.ModifyDate = DateTime.Now;
-                storyType.ModifyBy = sess.Email;
+                storyType.ModifyBy = User.Identity.GetUserName();
                 storyType.MetaTitle = ConvertToUnSign.convertToUnSign(storyType.Name);
 
                 db.Entry(storyType).State = EntityState.Modified;

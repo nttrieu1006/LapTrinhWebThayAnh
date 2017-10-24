@@ -1,0 +1,54 @@
+.wp_cate_rating_img:hover
+{
+	cursor: pointer;
+	
+}
+.wp_cate_rating_page_setting
+{
+  font-size: 14px;
+  line-height: 25px;
+}
+
+.wp_cate_rating_page_setting table
+{
+	width: 80%;
+	margin: 0 auto;
+} 
+.wp_cate_rating_page_setting .tr_head
+{
+	border: 1px solid #ccc;
+	  background: #C5C5C5;
+}
+.wp_cate_rating_page_setting .tr_sub
+{
+	background: #D5D4D4;
+}
+.wp_cate_rating_page_setting .td_centel
+{
+	text-align: center;
+}
+.wp_cate_rating_page_setting .td_left
+{
+	padding-left: 20px;
+}
+#wp-cate-rating-stars {
+	float: left;
+	margin-right: 10px;
+}
+#wp_cate_rating_avg {
+	float: left;
+	margin-right: 10px;
+	color: #fd8929;
+	font-size: 16px;
+	font-weight: bold;
+	line-height: 24px;
+}
+#wp_cate_rating_vote {
+	float: left;
+	margin-right: 10px;
+	font-size: 14px;
+	line-height: 24px;
+}
+#wp-cate-rating-title {
+	display: none;
+}

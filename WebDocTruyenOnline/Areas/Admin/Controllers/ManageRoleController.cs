@@ -15,13 +15,13 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         // GET: Admin/ManageRole
         public ActionResult Index()
         {
-           
+
             var model = context.Roles.AsEnumerable();
             return View(model.ToList());
         }
         public ActionResult Create()
         {
-           
+
             return View();
         }
 
@@ -32,16 +32,21 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(IdentityRole role)
         {
-            if (ModelState.IsValid)
+            try
             {
-
-
-                context.Roles.Add(role);
-                context.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    context.Roles.Add(role);
+                    context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
-
-            return View(role);
+            catch
+            {
+                ModelState.AddModelError("", "Lỗi");
+                
+            }
+            return View();
         }
         [HttpDelete]
         public ActionResult Delete(string id)

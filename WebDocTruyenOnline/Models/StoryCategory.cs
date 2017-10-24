@@ -5,6 +5,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using WebDocTruyenOnline.Common;
 
     [Table("StoryCategory")]
     public partial class StoryCategory
@@ -17,7 +18,7 @@
 
         public long Id { get; set; }
         [Display(Name="Tên danh mục")]
-        [Required(ErrorMessage ="Tên danh mục không được để trống")]
+        [Required(ErrorMessage = ErrorMessage.Required)]
         [StringLength(250)]
         public string Name { get; set; }
 

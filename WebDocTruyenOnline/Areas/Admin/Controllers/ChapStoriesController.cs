@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -40,25 +41,11 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         }
 
         // GET: Admin/ChapStories/Details/5
-        public ActionResult Details(long? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ChapStory chapStory = db.ChapStories.Find(id);
-            if (chapStory == null)
-            {
-                return HttpNotFound();
-            }
-           
-            return View(chapStory);
-        }
 
         // GET: Admin/ChapStories/Create
         public ActionResult Create()
         {
-            
+               
             ViewBag.StoryId = new SelectList(db.Stories, "Id", "Name");
             return View();
         }
@@ -74,9 +61,8 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
             int chap = db.ChapStories.Where(x => x.StoryId == chapStory.StoryId).OrderByDescending(x => x.Chap).Count();
             if (ModelState.IsValid)
             {
-                var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
                 chapStory.CreateDate = DateTime.Now;
-                chapStory.CreateBy = sess.Email;
+                chapStory.CreateBy = User.Identity.GetUserName();
                 if(chapStory.Chap > chap)
                 {
                     db.ChapStories.Add(chapStory);
@@ -124,9 +110,9 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
               
-                var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
+                //var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
                 chapStory.ModifyDate = DateTime.Now;
-                chapStory.ModifyBy = sess.Email;
+                chapStory.ModifyBy = User.Identity.GetUserName();
                 var st = db.Stories.Find(chapStory.StoryId);
                 chapStory.MetaTitle = st.MetaTitle;
                 if (chapStory.Chap > chap)

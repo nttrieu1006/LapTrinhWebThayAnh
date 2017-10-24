@@ -19,6 +19,7 @@ namespace WebDocTruyenOnline.Controllers
         {
             return View();
         }
+
         public PartialViewResult TopHot(long? typeId)
         {
             var model = new List<Story>();
@@ -30,8 +31,9 @@ namespace WebDocTruyenOnline.Controllers
             {
                     model = db.Stories.Where(x => x.TypeId == typeId).ToList();   
             }
-            return PartialView(model.OrderByDescending(x => x.TopHot.HasValue && x.TopHot > DateTime.Now).Take(12).ToList());
+            return PartialView(model.Where(x => x.TopHot.HasValue).OrderByDescending( x=> x.TopHot > DateTime.Now).Take(12).ToList());
         }
+      
         public PartialViewResult Finish()
         {
             var model= db.Stories.Where(x => x.Status == true).OrderByDescending(x => x.CreateDate).Take(4);
@@ -46,7 +48,7 @@ namespace WebDocTruyenOnline.Controllers
             var ty = db.StoryTypes.Find(typeId);
             ViewBag.type = ty.Name;
             var model = db.Stories.Where(x => x.TypeId == typeId); 
-            return View(model.OrderBy(x=>x.Name).ToPagedList(_pageIndex,10));
+            return View(model.OrderBy(x=>x.Name).ToPagedList(_pageIndex,1));
         }
 
         //Trang danh mục truyện
@@ -104,8 +106,9 @@ namespace WebDocTruyenOnline.Controllers
         public ActionResult Search(string keyword, int? pageIndex)
         {
             var _pageIndex = pageIndex ?? 1;
-            var model = db.Stories.Where(x => x.Name == keyword).ToList();
-            return View(model.OrderBy(x => x.Name).ToPagedList(_pageIndex, 10));
+            
+            var model = db.Stories.Where(x => x.Name == keyword);
+            return View(model.OrderBy(x => x.Name).ToPagedList(_pageIndex, 1));
         }
     }
 }

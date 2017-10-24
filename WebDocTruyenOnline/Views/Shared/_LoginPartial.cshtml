@@ -1,5 +1,7 @@
 ﻿@using Microsoft.AspNet.Identity
-@using WebDocTruyenOnline.Common;
+@using WebDocTruyenOnline.Models
+@using WebDocTruyenOnline.Common
+
 
 @if (Request.IsAuthenticated)
             {
@@ -9,27 +11,30 @@
             {
                 @Html.AntiForgeryToken()
 
-                var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
-
+                //var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
+                var user = new ApplicationDbContext();
+                string email = User.Identity.GetUserName();
+                var model = user.Users.SingleOrDefault(x => x.UserName == email);
                 <ul class="nav navbar-nav navbar-right">
-                    @if (sess == null)
-                    {
-                        <li>
-                            @Html.ActionLink("Xin chào " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-                        </li>
-                    }
-                    else
-                    {
-                        <li>
-                            @Html.ActionLink("Xin chào " + sess.FullName + " !", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-                        </li>
-                    }   
-                    @*<li>
-                        @Html.ActionLink("Xin chào " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-                    </li>*@
-
-
-                    <li><a href="javascript:document.getElementById('logoutForm').submit()">Đăng xuất</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            @(model.FullName)
+                            <span class="caret"></span> </a>
+                        <ul class="dropdown-menu">
+                            @try
+                            {
+                            if (model.Roles.SingleOrDefault(x => x.UserId == User.Identity.GetUserId()).RoleId == "admin")
+                            {
+                                <li><a href="/Admin/Home/Index" style="color:forestgreen;font-weight:900">Trang quản trị</a></li>
+                                <li role="separator" class="divider"></li>
+                            }
+                            }
+                            catch { }
+                            <li><a href="/Manage/Edit?id=@User.Identity.GetUserId()">Thông tin người dùng</a></li>
+                            <li><a href="/stories/folowing">Truyện đang theo dõi</a></li>
+                        </ul>
+                     </li>
+                     <li><a href="javascript:document.getElementById('logoutForm').submit()">Đăng xuất</a></li>
                 </ul>
             }
         </div>

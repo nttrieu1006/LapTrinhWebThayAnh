@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -31,20 +32,6 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         }
 
         // GET: Admin/Authors/Details/5
-        public ActionResult Details(long? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Author author = db.Authors.Find(id);
-            if (author == null)
-            {
-                return HttpNotFound();
-            }
-            
-            return View(author);
-        }
 
         // GET: Admin/Authors/Create
         public ActionResult Create()
@@ -62,9 +49,8 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
                 author.CreateDate = DateTime.Now;
-                author.CreateBy = sess.Email;
+                author.CreateBy = User.Identity.GetUserName();
                 author.MetaTitle = ConvertToUnSign.convertToUnSign(author.Name);
                 author.Status = true;
                 author.ShowOnHome = true;
@@ -103,9 +89,9 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 
-                var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
+                
                 author.ModifyDate = DateTime.Now;
-                author.ModifyBy = sess.Email;
+                author.ModifyBy = User.Identity.GetUserName();
                 author.MetaTitle = ConvertToUnSign.convertToUnSign(author.Name);
 
                 
@@ -145,10 +131,10 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
                 SetAlert("Xóa thành công!", "success");
                 return RedirectToAction("Index");
             }
-            catch(Exception e)
+            catch
             {
-                SetAlert("Xóa thành công!", "success");
-                return RedirectToAction("Index");
+                SetAlert("Xóa không thành công!", "error");
+                return View();
             }
             
         }
@@ -167,7 +153,7 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
             }
             catch (Exception e)
             {
-                SetAlert("Xóa thành công!", "success");
+                SetAlert("Xóa không thành công!", "error");
                 return RedirectToAction("Index");
             }
 

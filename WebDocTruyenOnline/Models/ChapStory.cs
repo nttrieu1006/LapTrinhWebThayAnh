@@ -5,6 +5,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using WebDocTruyenOnline.Common;
 
     [Table("ChapStory")]
     public partial class ChapStory
@@ -13,7 +14,7 @@
 
         [Display(Name ="Tên truyện")]
         public long? StoryId { get; set; }
-        [Required(ErrorMessage ="Bạn phải nhập chap")]
+        [Required(ErrorMessage = ErrorMessage.Required)]
         public int Chap { get; set; }
 
         [StringLength(250)]
