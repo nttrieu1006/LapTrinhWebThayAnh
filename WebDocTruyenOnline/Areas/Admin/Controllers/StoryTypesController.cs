@@ -46,22 +46,31 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,MetaTitle,DisplayOrder,CreateDate,CreateBy,ModifyDate,ModifyBy,Status,ShowOnHome")] StoryType storyType)
         {
-            if (ModelState.IsValid)
+            try
             {
-                //var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
-                storyType.CreateDate = DateTime.Now;
-                storyType.CreateBy = User.Identity.GetUserName();
-                storyType.MetaTitle = ConvertToUnSign.convertToUnSign(storyType.Name);
-                storyType.Status = true;
-                storyType.ShowOnHome = true;
+                if (ModelState.IsValid)
+                {
+                    //var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
+                    storyType.CreateDate = DateTime.Now;
+                    storyType.CreateBy = User.Identity.GetUserName();
+                    storyType.MetaTitle = ConvertToUnSign.convertToUnSign(storyType.Name);
+                    storyType.Status = true;
+                    storyType.ShowOnHome = true;
 
-                db.StoryTypes.Add(storyType);
-                db.SaveChanges();
-                SetAlert("Tạo mới thành công!", "success");
-                return RedirectToAction("Index");
+                    db.StoryTypes.Add(storyType);
+                    db.SaveChanges();
+                    SetAlert("Tạo mới thành công!", "success");
+                    return RedirectToAction("Index");
+                }
+
+                return View(storyType);
             }
-
-            return View(storyType);
+            catch
+            {
+                ModelState.AddModelError("", "Đã xảy ra lỗi");
+                return View();
+            }
+            
         }
 
         // GET: Admin/StoryTypes/Edit/5

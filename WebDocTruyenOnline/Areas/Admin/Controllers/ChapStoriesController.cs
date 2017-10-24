@@ -59,26 +59,39 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         public ActionResult Create([Bind(Include = "Id,StoryId,Chap,ChapName, MetaTitle,Content,CreateDate,CreateBy,ModifyDate,ModifyBy,Status")] ChapStory chapStory)
         {
             int chap = db.ChapStories.Where(x => x.StoryId == chapStory.StoryId).OrderByDescending(x => x.Chap).Count();
-            if (ModelState.IsValid)
+            try
             {
-                chapStory.CreateDate = DateTime.Now;
-                chapStory.CreateBy = User.Identity.GetUserName();
-                if(chapStory.Chap > chap)
+                if (ModelState.IsValid)
                 {
-                    db.ChapStories.Add(chapStory);
-                    db.SaveChanges();
-                    SetAlert("Tạo mới chap truyện thành công", "success");
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Truyện này đã có "+ chap + " chap. Bạn có thể tạo từ chap " + (chap = chap + 1));
-                }
-                
-            }
+                    chapStory.CreateDate = DateTime.Now;
+                    chapStory.CreateBy = User.Identity.GetUserName();
+                    if (chapStory.Chap > chap)
+                    {
+                        db.ChapStories.Add(chapStory);
+                        db.SaveChanges();
+                        SetAlert("Tạo mới chap truyện thành công", "success");
+                        return RedirectToAction("Index");
+                    }
+                    else if(chapStory.Chap < 1)
+                    {
+                        ModelState.AddModelError("", "Không thể tạo chap truyện dưới 1");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Truyện này đã có " + chap + " chap. Bạn có thể tạo từ chap " + (chap = chap + 1));
+                    }
 
-            ViewBag.StoryID = new SelectList(db.Stories, "Id", "Name", chapStory.StoryId);
-            return View(chapStory);
+                }
+
+                ViewBag.StoryID = new SelectList(db.Stories, "Id", "Name", chapStory.StoryId);
+                return View(chapStory);
+            }
+            catch
+            {
+                ModelState.AddModelError("", "Đã xảy ra lỗi");
+                return View();
+            }
+            
         }
 
         // GET: Admin/ChapStories/Edit/5
@@ -107,32 +120,47 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         public ActionResult Edit([Bind(Include = "Id,StoryId,Chap,ChapName,MetaTitle,Content,CreateDate,CreateBy,ModifyDate,ModifyBy,Status")] ChapStory chapStory)
         {
             int chap = db.ChapStories.Where(x => x.StoryId == chapStory.StoryId).OrderByDescending(x => x.Chap).Count();
-            if (ModelState.IsValid)
+
+            try
             {
-              
-                //var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
-                chapStory.ModifyDate = DateTime.Now;
-                chapStory.ModifyBy = User.Identity.GetUserName();
-                var st = db.Stories.Find(chapStory.StoryId);
-                chapStory.MetaTitle = st.MetaTitle;
-                if (chapStory.Chap > chap)
+                if (ModelState.IsValid)
                 {
+
+                    //var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
+                    chapStory.ModifyDate = DateTime.Now;
+                    chapStory.ModifyBy = User.Identity.GetUserName();
+                    var st = db.Stories.Find(chapStory.StoryId);
+                    chapStory.MetaTitle = st.MetaTitle;
+                    if (chapStory.Chap <= chap)
+                    {
+                        db.Entry(chapStory).State = EntityState.Modified;
+                        db.SaveChanges();
+                        SetAlert("Cập nhật chap truyện thành công", "success");
+                        return RedirectToAction("Index");
+                    }
+                    else if (chapStory.Chap < 1)
+                    {
+                        ModelState.AddModelError("", "Không thể tạo chap truyện dưới 1");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Truyện này đã có " + chap + " chap. Bạn có thể tạo từ chap " + (chap = chap + 1));
+                    }
+
                     db.Entry(chapStory).State = EntityState.Modified;
                     db.SaveChanges();
-                    SetAlert("Cập nhật chap truyện thành công", "success");
                     return RedirectToAction("Index");
                 }
-                else
-                {
-                    ModelState.AddModelError("", "Truyện này đã có " + chap + " chap. Bạn có thể tạo từ chap " + (chap = chap + 1));
-                }
-
-                db.Entry(chapStory).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                ViewBag.StoryId = new SelectList(db.Stories, "Id", "Name", chapStory.StoryId);
+                return View(chapStory);
             }
-            ViewBag.StoryId = new SelectList(db.Stories, "Id", "Name", chapStory.StoryId);
-            return View(chapStory);
+            catch
+            {
+                ModelState.AddModelError("", "Đã xảy ra lỗi");
+                return View();
+            }
+            
+           
         }
 
         ////GET: Admin/Stories/MultiDelete

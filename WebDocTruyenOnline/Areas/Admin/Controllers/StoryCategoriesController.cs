@@ -46,22 +46,31 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,MetaTitle,DisplayOrder,CreateDate,CreateBy,ModifyDate,ModifyBy,Status,ShowOnHome")] StoryCategory storyCategory)
         {
-            if (ModelState.IsValid)
+            try
             {
-                //var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
-                storyCategory.CreateDate = DateTime.Now;
-                storyCategory.CreateBy = User.Identity.GetUserName();
-                storyCategory.MetaTitle = ConvertToUnSign.convertToUnSign(storyCategory.Name);
-                storyCategory.ShowOnHome = true;
-                storyCategory.Status = true;
+                if (ModelState.IsValid)
+                {
+                    //var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
+                    storyCategory.CreateDate = DateTime.Now;
+                    storyCategory.CreateBy = User.Identity.GetUserName();
+                    storyCategory.MetaTitle = ConvertToUnSign.convertToUnSign(storyCategory.Name);
+                    storyCategory.ShowOnHome = true;
+                    storyCategory.Status = true;
 
-                db.StoryCategories.Add(storyCategory);
-                db.SaveChanges();
-                SetAlert("Tạo mới thành công!", "success");
-                return RedirectToAction("Index");
+                    db.StoryCategories.Add(storyCategory);
+                    db.SaveChanges();
+                    SetAlert("Tạo mới thành công!", "success");
+                    return RedirectToAction("Index");
+                }
+
+                return View(storyCategory);
             }
-
-            return View(storyCategory);
+            catch
+            {
+                ModelState.AddModelError("", "Đã xảy ra lỗi");
+                return View();
+            }
+            
         }
 
         // GET: Admin/StoryCategories/Edit/5
@@ -87,19 +96,27 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,MetaTitle,DisplayOrder,CreateDate,CreateBy,ModifyDate,ModifyBy,Status,ShowOnHome")] StoryCategory storyCategory)
         {
-            if (ModelState.IsValid)
-            {
-                //var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
-                storyCategory.ModifyDate = DateTime.Now;
-                storyCategory.ModifyBy = User.Identity.GetUserName();
-                storyCategory.MetaTitle = ConvertToUnSign.convertToUnSign(storyCategory.Name);
+            try {
+                if (ModelState.IsValid)
+                {
+                    //var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
+                    storyCategory.ModifyDate = DateTime.Now;
+                    storyCategory.ModifyBy = User.Identity.GetUserName();
+                    storyCategory.MetaTitle = ConvertToUnSign.convertToUnSign(storyCategory.Name);
 
-                db.Entry(storyCategory).State = EntityState.Modified;
-                db.SaveChanges();
-                SetAlert("Cập nhật thành công!", "success");
-                return RedirectToAction("Index");
+                    db.Entry(storyCategory).State = EntityState.Modified;
+                    db.SaveChanges();
+                    SetAlert("Cập nhật thành công!", "success");
+                    return RedirectToAction("Index");
+                }
+                return View(storyCategory);
             }
-            return View(storyCategory);
+            catch
+            {
+                ModelState.AddModelError("", "Đã xảy ra lỗi");
+                return View();
+            }
+            
         }
         //GET: Admin/Stories/MultiDelete
         public ActionResult MultiDelete(string searchString)

@@ -48,8 +48,10 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         [ValidateInput(false)]
         public ActionResult Create([Bind(Include = "Id,Name,MetaTitle,Descirption,AuthorID,TypeID,CategoryID,Image,CreateDate,CreateBy,ModifyDate,ModifyBy,TopHot,Status,Views")] Story story)
         {
-            if (ModelState.IsValid)
+            try
             {
+                if (ModelState.IsValid)
+                {
                     //var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
                     story.CreateDate = DateTime.Now;
                     story.CreateBy = User.Identity.GetUserName();
@@ -58,20 +60,20 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
 
                     db.Stories.Add(story);
                     db.SaveChanges();
-                SetAlert("Tạo truyện thành công! Bạn vui lòng tạo chap truyện", "success");
-                ViewBag.AuthorId = new SelectList(db.Authors, "Id", "Name", story.AuthorId);
-                ViewBag.CategoryId = new SelectList(db.StoryCategories, "Id", "Name", story.CategoryId);
-                ViewBag.TypeId = new SelectList(db.StoryTypes, "Id", "Name", story.TypeId);
-                return RedirectToAction("Create","ChapStories");
+                    SetAlert("Tạo truyện thành công! Bạn vui lòng tạo chap truyện", "success");
+                }
+                    ViewBag.AuthorId = new SelectList(db.Authors, "Id", "Name", story.AuthorId);
+                    ViewBag.CategoryId = new SelectList(db.StoryCategories, "Id", "Name", story.CategoryId);
+                    ViewBag.TypeId = new SelectList(db.StoryTypes, "Id", "Name", story.TypeId);
+                    return RedirectToAction("Create", "ChapStories");
+                
             }
-            else
+            catch
             {
                 ModelState.AddModelError("", "Đã xảy ra lỗi");
                 return View();
             }
-
-            
-            
+         
         }
 
         // GET: Admin/Stories/Edit/5
@@ -101,22 +103,30 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         [ValidateInput(false)]
         public ActionResult Edit([Bind(Include = "Id,Name,MetaTitle,Descirption,AuthorID,TypeID,CategoryID,Image,CreateDate,CreateBy,ModifyDate,ModifyBy,TopHot,Status,Views")] Story story)
         {
-            if (ModelState.IsValid)
-            {
-                //var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
-                story.ModifyDate = DateTime.Now;
-                story.ModifyBy = User.Identity.GetUserName();
-                story.MetaTitle = ConvertToUnSign.convertToUnSign(story.Name);
+            try {
+                if (ModelState.IsValid)
+                {
+                    //var sess = (UserLogin)Session[CommonConstants.USER_SESSION];
+                    story.ModifyDate = DateTime.Now;
+                    story.ModifyBy = User.Identity.GetUserName();
+                    story.MetaTitle = ConvertToUnSign.convertToUnSign(story.Name);
 
-                db.Entry(story).State = EntityState.Modified;
-                db.SaveChanges();
-                SetAlert("Cập nhật truyện thành công!", "success");
-                return RedirectToAction("Index");
+                    db.Entry(story).State = EntityState.Modified;
+                    db.SaveChanges();
+                    SetAlert("Cập nhật truyện thành công!", "success");
+                    return RedirectToAction("Index");
+                }
+                ViewBag.AuthorId = new SelectList(db.Authors, "Id", "Name", story.AuthorId);
+                ViewBag.CategoryId = new SelectList(db.StoryCategories, "Id", "Name", story.CategoryId);
+                ViewBag.TypeId = new SelectList(db.StoryTypes, "Id", "Name", story.TypeId);
+                return View(story);
             }
-            ViewBag.AuthorId = new SelectList(db.Authors, "Id", "Name", story.AuthorId);
-            ViewBag.CategoryId = new SelectList(db.StoryCategories, "Id", "Name", story.CategoryId);
-            ViewBag.TypeId = new SelectList(db.StoryTypes, "Id", "Name", story.TypeId);
-            return View(story);
+            catch
+            {
+                ModelState.AddModelError("", "Đã xảy ra lỗi");
+                return View();
+            }
+            
         }
 
         //Truyen da dang

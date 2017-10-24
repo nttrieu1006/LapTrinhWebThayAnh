@@ -47,20 +47,29 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,MetaTitle,DisplayOrder,CreateDate,CreateBy,ModifyDate,ModifyBy,Status,ShowOnHome")] Author author)
         {
-            if (ModelState.IsValid)
+            try
             {
-                author.CreateDate = DateTime.Now;
-                author.CreateBy = User.Identity.GetUserName();
-                author.MetaTitle = ConvertToUnSign.convertToUnSign(author.Name);
-                author.Status = true;
-                author.ShowOnHome = true;
-                db.Authors.Add(author);
-                db.SaveChanges();
-                SetAlert("Tạo mới tác giả thành công","success");
-                return RedirectToAction("Index");
-            }
+                if (ModelState.IsValid)
+                {
+                    author.CreateDate = DateTime.Now;
+                    author.CreateBy = User.Identity.GetUserName();
+                    author.MetaTitle = ConvertToUnSign.convertToUnSign(author.Name);
+                    author.Status = true;
+                    author.ShowOnHome = true;
+                    db.Authors.Add(author);
+                    db.SaveChanges();
+                    SetAlert("Tạo mới tác giả thành công", "success");
+                    return RedirectToAction("Index");
+                }
 
-            return View(author);
+                return View(author);
+            }
+            catch
+            {
+                ModelState.AddModelError("", "Đã xảy ra lỗi");
+                return View();
+            }
+           
         }
 
         // GET: Admin/Authors/Edit/5
@@ -86,21 +95,30 @@ namespace WebDocTruyenOnline.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,MetaTitle,CreateBy,CreateDate,DisplayOrder,ModifyDate,ModifyBy,Status,ShowOnHome")] Author author)
         {
-            if (ModelState.IsValid)
+            try
             {
-                
-                
-                author.ModifyDate = DateTime.Now;
-                author.ModifyBy = User.Identity.GetUserName();
-                author.MetaTitle = ConvertToUnSign.convertToUnSign(author.Name);
+                if (ModelState.IsValid)
+                {
 
-                
-                db.Entry(author).State = EntityState.Modified;
-                db.SaveChanges();
-                SetAlert("Cập nhật tác giả thành công!", "success");
-                return RedirectToAction("Index");
+
+                    author.ModifyDate = DateTime.Now;
+                    author.ModifyBy = User.Identity.GetUserName();
+                    author.MetaTitle = ConvertToUnSign.convertToUnSign(author.Name);
+
+
+                    db.Entry(author).State = EntityState.Modified;
+                    db.SaveChanges();
+                    SetAlert("Cập nhật tác giả thành công!", "success");
+                    return RedirectToAction("Index");
+                }
+                return View(author);
             }
-            return View(author);
+            catch
+            {
+                ModelState.AddModelError("", "Đã xảy ra lỗi");
+                return View();
+            }
+            
         }
 
         //GET: Admin/Stories/MultiDelete

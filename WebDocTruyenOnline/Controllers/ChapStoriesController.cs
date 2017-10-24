@@ -16,7 +16,7 @@ namespace WebDocTruyenOnline.Controllers
         {
             return View();
         }
-        [ChildActionOnly]
+ 
         public PartialViewResult MoiCN(long? typeId)
         {
             var model = new List<ChapStory>();
